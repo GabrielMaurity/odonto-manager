@@ -46,7 +46,7 @@ Módulos: Identidade/Acesso, Pacientes, Profissionais (perfil do dentista), Agen
 Dados de pacientes e exames são dados pessoais sensíveis de saúde. A constituição exige: autorização por perfil e por recurso (dentista vê apenas o que lhe compete), trilha de auditoria de acesso a prontuário/exames, criptografia em trânsito (TLS) e de arquivos em repouso, segredos fora do repositório e retenção/eliminação conforme LGPD.
 
 ### D7. Convenções de código e Git
-Convenções oficiais do C# (.NET) e ESLint/Prettier no frontend, `.editorconfig` versionado, análise estática com warnings tratados como erros, nullable habilitado. Conventional Commits em pt-BR, sem assinatura ou linhas de coautoria. Comentários apenas para explicar o “porquê” não óbvio.
+Convenções oficiais do C# (.NET) em toda a solução, inclusive no frontend Blazor, `.editorconfig` versionado, análise estática com warnings tratados como erros, nullable habilitado. Conventional Commits em pt-BR, sem assinatura ou linhas de coautoria. Comentários apenas para explicar o “porquê” não óbvio.
 
 ### D8. Processo de emenda
 Alterar a constituição exige uma change OpenSpec própria (`amend-constitution-<tema>`) com justificativa; a constituição registra versão e data da última emenda.

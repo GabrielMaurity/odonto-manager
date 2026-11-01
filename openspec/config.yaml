@@ -5,24 +5,23 @@ context: |
   All artifacts must be written in pt-BR.
   Keep OpenSpec structural headings and SHALL/MUST keywords in English.
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always state what is out of scope
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+  Projeto: Odonto Manager, sistema de gestão de clínicas odontológicas.
+  Todo artefato e todo código DEVEM respeitar /constitution.md, que prevalece em caso de conflito.
+  Resumo dos princípios inegociáveis:
+  - SOLID e Clean Architecture (Domain <- Application <- Infrastructure/Api; Web/Web.Client dependem apenas de Contracts e falam com o backend via HTTP).
+  - Monólito modular: Identidade e Acesso, Pacientes, Profissionais, Agenda, Materiais, Exames; módulos não acessam entidades ou tabelas uns dos outros.
+  - Stack: .NET 10, ASP.NET Core Web API, EF Core + PostgreSQL, Blazor Web App (Interactive Auto) com Radzen Blazor; testes com xUnit, Testcontainers, bUnit e Playwright.
+  - Perfis: Dentista, Recepcionista/Secretária, Administrador; menor privilégio verificado no backend.
+  - Dados de saúde sob LGPD: autorização por recurso, auditoria de acesso, criptografia de exames, segredos fora do repositório.
+  - Comentários apenas quando explicam um porquê não óbvio.
+  - Conventional Commits em pt-BR, sem assinatura nem linhas de coautoria.
 
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+rules:
+  proposal:
+    - Indicar o módulo (Artigo IV da constituição) a que a change pertence.
+  design:
+    - Citar os artigos da constituição afetados ou nos quais cada decisão se apoia.
+    - Justificar toda nova dependência externa (licença, manutenção, motivo).
+  tasks:
+    - Cada grupo de tarefas DEVE incluir as tarefas de teste da própria funcionalidade; não criar grupo final só de testes.
+    - Tarefas que tocam dados clínicos ou exames DEVEM incluir verificação de autorização e auditoria.
