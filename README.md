@@ -50,10 +50,28 @@ O arquivo `.env` contém credenciais e não é versionado; altere as senhas de e
 
 ## Commits
 
-O projeto usa commits semânticos (Conventional Commits em pt-BR). Ative o hook que valida as mensagens, uma vez por clone:
+O projeto usa commits semânticos (Conventional Commits em pt-BR). Ative os hooks que validam mensagens de commit e pushes, uma vez por clone:
 
 ```bash
 git config core.hooksPath .githooks
 ```
 
 Formato: `<tipo>(<escopo>)!: <descrição>`, por exemplo `feat(agenda): adiciona remarcação de consultas`. Tipos, escopos e regras completas estão na [seção 13 do `Docs/specification.md`](Docs/specification.md#13-commits-semânticos).
+
+## Fluxo de trabalho
+
+A `main` é a branch principal e só recebe alterações por pull request. Cada implementação, feature ou correção começa em uma branch nova a partir da `main`:
+
+```bash
+git switch main
+```
+
+```bash
+git pull
+```
+
+```bash
+git switch -c feat/add-solution-skeleton
+```
+
+As branches seguem o padrão `<tipo>/<nome-da-change>`, com os mesmos tipos dos commits. O pull request tem título no formato de commit semântico e entra na `main` por squash merge. Detalhes na [seção 14 do `Docs/specification.md`](Docs/specification.md#14-branches-e-pull-requests).

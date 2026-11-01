@@ -27,6 +27,7 @@ Todas as etapas desta parte estão concluídas.
 | P0.E4 | `update-specification-commits` | [tasks.md](../openspec/changes/update-specification-commits/tasks.md) |
 | P0.E5 | `amend-constitution-docs-folder` | [tasks.md](../openspec/changes/amend-constitution-docs-folder/tasks.md) |
 | P0.E6 | `add-implementation-plan` | [tasks.md](../openspec/changes/add-implementation-plan/tasks.md) |
+| P0.E7 | `update-specification-branches` | [tasks.md](../openspec/changes/update-specification-branches/tasks.md) |
 
 ## Parte 1 — Base técnica
 

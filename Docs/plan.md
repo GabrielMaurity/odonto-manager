@@ -27,7 +27,7 @@ As fases não têm datas; o esforço de cada etapa é indicado pelo tamanho rela
 
 | Fase | Etapas (changes) | Marco ao final |
 |------|------------------|----------------|
-| **0. Fundação** | `add-project-constitution`, `amend-constitution-docker`, `amend-constitution-ddd`, `update-specification-commits`, `amend-constitution-docs-folder`, `add-implementation-plan` | Regras do projeto e planejamento definidos |
+| **0. Fundação** | `add-project-constitution`, `amend-constitution-docker`, `amend-constitution-ddd`, `update-specification-commits`, `amend-constitution-docs-folder`, `add-implementation-plan`, `update-specification-branches` | Regras do projeto e planejamento definidos |
 | **1. Base técnica** | `add-solution-skeleton` | A solução compila, testes e CI ficam verdes, API e Web sobem no Docker |
 | **2. MVP** | `add-identity-access`, `add-patient-registry`, `add-dentist-profile`, `add-appointment-scheduling` | 🎯 **MVP**: a recepção agenda consultas, e o dentista vê e gerencia a própria agenda |
 | **3. Expansão** | `add-material-requests`, `add-exam-files` | Escopo completo do Artigo I da constituição |
@@ -79,6 +79,7 @@ Tamanho: **P** = até 3 grupos de tarefas; **M** = 4 a 6; **G** = 7 ou mais. Se 
 | `update-specification-commits` | Commits semânticos e hook `commit-msg` | M |
 | `amend-constitution-docs-folder` | Documentos do projeto reunidos em `Docs/` | P |
 | `add-implementation-plan` | Este plano, o `tasks.md` e o `checklist.md` | M |
+| `update-specification-branches` | Branch `main` e fluxo de uma branch por trabalho, com hook `pre-push` | M |
 
 Tarefas: [Parte 0 do `tasks.md`](tasks.md#parte-0--fundação).
 
