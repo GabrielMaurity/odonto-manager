@@ -25,10 +25,10 @@
 
 ## 5. API base
 
-- [ ] 5.1 Configurar ProblemDetails com `traceId`, `UseStatusCodePages` e `IExceptionHandler` global (D4); verificar com testes de integração dos cenários de `platform/api-errors` para 404 de rota, `traceId` e 500 com e sem detalhes conforme o ambiente
-- [ ] 5.2 Implementar `Error.ToProblem()` com a tabela da specification 5.2 (D4); verificar com testes de integração, usando endpoints só de teste, para 400 com `errors` por campo, 404, 409, 422 e a extensão `code`
-- [ ] 5.3 Configurar o grupo `/api/v1`, a convenção `Add<Modulo>Module`/`Map<Modulo>Endpoints`, HSTS, redirecionamento HTTPS e a política CORS `Web` (D4); verificar com teste de integração de preflight CORS para uma origem permitida e uma negada
-- [ ] 5.4 Configurar OpenAPI e Scalar apenas em `Development` (D4); verificar com testes de integração dos cenários de `platform/api-documentation` nos ambientes `Development` e `Production`
+- [x] 5.1 Configurar ProblemDetails com `traceId`, `UseStatusCodePages` e `IExceptionHandler` global (D4); verificar com testes de integração dos cenários de `platform/api-errors` para 404 de rota, `traceId` e 500 com e sem detalhes conforme o ambiente
+- [x] 5.2 Implementar `Error.ToProblem()` com a tabela da specification 5.2 (D4); verificar com testes de integração, usando endpoints só de teste, para 400 com `errors` por campo, 404, 409, 422 e a extensão `code`
+- [x] 5.3 Configurar o grupo `/api/v1`, a convenção `Add<Modulo>Module`/`Map<Modulo>Endpoints`, HSTS, redirecionamento HTTPS e a política CORS `Web` (D4); verificar com teste de integração de preflight CORS para uma origem permitida e uma negada
+- [x] 5.4 Configurar OpenAPI e Scalar apenas em `Development` (D4); verificar com testes de integração dos cenários de `platform/api-documentation` nos ambientes `Development` e `Production`
 
 ## 6. Persistência base
 

@@ -66,8 +66,8 @@ Segue o código de exemplo da specification:
   - `UseStatusCodePages` para que 404 de rota inexistente também saia em ProblemDetails;
   - `IExceptionHandler` global, que responde 500 e inclui detalhes da exceção apenas em `Development`.
 - **Conversão de erros:** `Error.ToProblem()` em `Api/Infrastructure`, com a tabela da specification 5.2. `ValidationError` vira `ValidationProblemDetails` com `errors`, e todo erro de negócio leva a extensão `code`.
-- **Registro de módulos:** cada módulo futuro expõe `Add<Modulo>Module(IServiceCollection, IConfiguration)` e `Map<Modulo>Endpoints(IEndpointRouteBuilder)`, chamados no `Program.cs` dentro do grupo `/api/v1`. Nesta change, o grupo existe e está vazio.
-- **Testes do mapeamento de erros:** os testes de integração registram endpoints próprios, só do projeto de teste (via `WebApplicationFactory.WithWebHostBuilder`), que devolvem cada tipo de `Error` ou lançam exceção. Nenhum endpoint de teste é publicado na API.
+- **Registro de módulos:** cada módulo implementa `IApiModule.MapEndpoints` e o registra no container por meio de `Add<Modulo>Module(IServiceCollection, IConfiguration)`. O `Program.cs` mapeia todos os `IApiModule` registrados dentro do grupo `/api/v1`, então incluir um módulo novo não altera o mapeamento (OCP). Nesta change, nenhum módulo está registrado. *Ajuste feito durante a implementação: a versão anterior previa um `Map<Modulo>Endpoints` chamado explicitamente no `Program.cs`.*
+- **Testes do mapeamento de erros:** os testes de integração registram um `IApiModule` próprio, só do projeto de teste (via `ConfigureTestServices`), com endpoints que devolvem cada tipo de `Error` ou lançam exceção. Nenhum endpoint de teste é publicado na API.
 - **OpenAPI:** `AddOpenApi()` + `MapOpenApi()` e `MapScalarApiReference()`, ambos só em `Development`.
 - **Transporte e CORS:** `UseHsts` fora de `Development` e `UseHttpsRedirection`. CORS com política nomeada `Web`, cujas origens vêm de `Cors:AllowedOrigins`; lista vazia por padrão.
 
