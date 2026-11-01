@@ -9,7 +9,7 @@ O odonto-manager é um projeto novo, desenvolvido com SDD (Spec-Driven Developme
 - Criação de `constitution.md` na raiz do repositório contendo:
   - Missão e escopo do produto (gestão de clínica odontológica).
   - Princípios de engenharia inegociáveis: SOLID, Clean Architecture, testes automatizados, segurança e privacidade de dados de saúde (LGPD), comentários apenas quando estritamente necessários.
-  - Stack tecnológica: .NET (C#) com ASP.NET Core Web API, EF Core e PostgreSQL; frontend SPA em React + TypeScript.
+  - Stack tecnológica: .NET (C#) com ASP.NET Core Web API, EF Core e PostgreSQL; frontend em Blazor Web App (C#) com Radzen Blazor.
   - Arquitetura de referência em camadas (Domain, Application, Infrastructure, API) e regras de dependência entre elas.
   - Perfis de acesso: Dentista, Recepcionista/Secretária e Administrador da clínica.
   - Convenções de código, Git (Conventional Commits, commits sem assinatura/coautoria) e fluxo SDD com OpenSpec.
@@ -33,7 +33,7 @@ O odonto-manager é um projeto novo, desenvolvido com SDD (Spec-Driven Developme
 - **Código/APIs**: nenhum — ainda não há código no repositório.
 - **Processo**: todas as próximas changes (agenda, perfil do dentista, pacientes, materiais, exames, autenticação) DEVEM seguir a constituição; divergências exigem emenda formal.
 - **Roadmap previsto** (changes futuras, fora deste escopo):
-  1. `add-solution-skeleton` — esqueleto da solução .NET + React, CI e testes.
+  1. `add-solution-skeleton` — esqueleto da solução .NET (API + Blazor), CI e testes.
   2. `add-identity-access` — autenticação e autorização por perfil.
   3. `add-patient-registry` — cadastro de pacientes.
   4. `add-dentist-profile` — perfil do dentista.
