@@ -1,6 +1,6 @@
 # Odonto Manager
 
-Sistema de gestão de clínicas odontológicas. Os princípios e decisões do projeto estão em [`constitution.md`](constitution.md); o desenvolvimento segue SDD com [OpenSpec](https://github.com/Fission-AI/OpenSpec) (changes em `openspec/changes/`).
+Sistema de gestão de clínicas odontológicas. Os princípios e decisões do projeto estão em [`Docs/constitution.md`](Docs/constitution.md); o desenvolvimento segue SDD com [OpenSpec](https://github.com/Fission-AI/OpenSpec) (changes em `openspec/changes/`).
 
 ## Ambiente de desenvolvimento
 
@@ -56,4 +56,4 @@ O projeto usa commits semânticos (Conventional Commits em pt-BR). Ative o hook 
 git config core.hooksPath .githooks
 ```
 
-Formato: `<tipo>(<escopo>)!: <descrição>`, por exemplo `feat(agenda): adiciona remarcação de consultas`. Tipos, escopos e regras completas estão na [seção 13 do `specification.md`](specification.md#13-commits-semânticos).
+Formato: `<tipo>(<escopo>)!: <descrição>`, por exemplo `feat(agenda): adiciona remarcação de consultas`. Tipos, escopos e regras completas estão na [seção 13 do `Docs/specification.md`](Docs/specification.md#13-commits-semânticos).

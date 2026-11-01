@@ -1,5 +1,5 @@
 #!/bin/sh
-# Valida mensagens de commit conforme a seção 13 do specification.md.
+# Valida mensagens de commit conforme a seção 13 do Docs/specification.md.
 
 types='build|ci|docs|feat|fix|perf|refactor|style|test|chore|env'
 scopes='identidade|pacientes|profissionais|agenda|materiais|exames|api|web|infra|db|docker|deps|openspec|constituicao|especificacao'
@@ -10,7 +10,7 @@ fail() {
         printf 'Mensagem de commit inválida: %s\n\n' "$1"
         printf 'Formato: <tipo>(<escopo>)!: <descrição>\n'
         printf 'Exemplo: feat(agenda): adiciona remarcação de consultas\n'
-        printf 'Regras completas: specification.md, seção 13.\n'
+        printf 'Regras completas: Docs/specification.md, seção 13.\n'
     } >&2
     exit 1
 }

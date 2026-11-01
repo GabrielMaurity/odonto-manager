@@ -2,7 +2,7 @@
 
 | Versão | Atualizada em | Norma superior |
 |--------|---------------|----------------|
-| 1.1.0  | 2026-11-01    | [`constitution.md`](constitution.md) v1.2.0 |
+| 1.1.1  | 2026-11-01    | [`constitution.md`](constitution.md) v1.2.1 |
 
 Este documento detalha **como** o Odonto Manager é construído: padrões, bibliotecas, estrutura e convenções técnicas. Ele é normativo (Artigo IV.8 da constituição) e subordinado à constituição: em caso de conflito, prevalece a constituição. As palavras **DEVE**, **NÃO DEVE** e **PODE** têm o mesmo sentido normativo da constituição.
 
@@ -483,6 +483,7 @@ odonto-manager/
 ├── Directory.Packages.props         # versões centralizadas (Central Package Management)
 ├── .editorconfig
 ├── docker-compose.yaml
+├── Docs/                          # constitution, specification, plan, tasks, checklist
 ├── src/
 │   ├── OdontoManager.Domain/
 │   │   ├── SharedKernel/

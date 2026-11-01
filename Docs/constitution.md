@@ -2,7 +2,7 @@
 
 | Versão | Ratificada em | Última emenda |
 |--------|---------------|---------------|
-| 1.2.0  | 2026-11-01    | 2026-11-01 (DDD e specification.md) |
+| 1.2.1  | 2026-11-01    | 2026-11-01 (documentos movidos para `Docs/`) |
 
 Este documento define os princípios, decisões estruturais e convenções que regem o desenvolvimento do Odonto Manager. Toda change, spec, design, tarefa e linha de código DEVE estar em conformidade com ele. Em caso de conflito entre esta constituição e qualquer outro artefato, prevalece a constituição até que seja emendada (Artigo X).
 
@@ -20,7 +20,8 @@ As palavras **DEVE**, **NÃO DEVE** e **PODE** têm sentido normativo: obrigaç�
    - pedidos de material com fluxo de aprovação;
    - armazenamento e visualização de arquivos de exames;
    - controle de acesso por perfil de usuário.
-3. Funcionalidades fora deste escopo (financeiro, faturamento de convênios, portal do paciente, entre outras) só PODEM ser incluídas por emenda ao roadmap.
+3. Os documentos do projeto (esta constituição, `specification.md`, `plan.md`, `tasks.md` e `checklist.md`) ficam na pasta `Docs/`, na raiz do repositório. O `README.md` permanece na raiz.
+4. Funcionalidades fora deste escopo (financeiro, faturamento de convênios, portal do paciente, entre outras) só PODEM ser incluídas por emenda ao roadmap.
 
 ## Artigo II — Princípios inegociáveis
 
@@ -78,7 +79,7 @@ As palavras **DEVE**, **NÃO DEVE** e **PODE** têm sentido normativo: obrigaç�
 5. Um módulo NÃO DEVE acessar entidades, repositórios ou tabelas de outro módulo; a interação entre módulos DEVE ocorrer por contratos públicos da camada `Application` ou por eventos de domínio.
 6. Dentro de `Application`, o código DEVE ser organizado por módulo e por funcionalidade (feature folders).
 7. Componentes de terceiros (ex.: Scheduler do Radzen) DEVEM ser encapsulados em componentes próprios do projeto, permitindo sua substituição sem afetar as telas.
-8. **Especificação técnica.** O `specification.md`, na raiz do repositório, detalha padrões, bibliotecas, estrutura e convenções técnicas e DEVE ser seguido. Ele é subordinado a esta constituição e NÃO DEVE contradizê-la; em caso de conflito, prevalece a constituição.
+8. **Especificação técnica.** O `specification.md`, na pasta `Docs/` junto com esta constituição, detalha padrões, bibliotecas, estrutura e convenções técnicas e DEVE ser seguido. Ele é subordinado a esta constituição e NÃO DEVE contradizê-la; em caso de conflito, prevalece a constituição.
 
 ## Artigo V — Perfis de acesso
 
