@@ -6,11 +6,11 @@ O que já foi entregue e o que falta, visto do projeto como um todo. Cada item �
 
 | Fase | Entregues | Total | Situação |
 |------|-----------|-------|----------|
-| 0. Fundação | 13 | 13 | ✅ Concluída |
+| 0. Fundação | 16 | 16 | ✅ Concluída |
 | 1. Base técnica | 0 | 9 | ⏳ Próxima |
 | 2. MVP | 0 | 18 | ⬜ Não iniciada |
 | 3. Expansão | 0 | 11 | ⬜ Não iniciada |
-| **Total** | **13** | **51** | |
+| **Total** | **16** | **54** | |
 
 🎯 **Marco MVP:** ainda não alcançado. Ele é atingido quando todos os itens da Fase 2 estiverem entregues.
 
@@ -45,6 +45,9 @@ O que já foi entregue e o que falta, visto do projeto como um todo. Cada item �
 ### Convenções
 - [x] Padrão de commits semânticos documentado — `update-specification-commits`
 - [x] Hook `commit-msg` que valida as mensagens, com testes — `update-specification-commits`
+- [x] 🆕 Branch `main` como principal, só alterada por pull request com squash merge — `update-specification-branches`
+- [x] 🆕 Uma branch por implementação ou feature, no padrão `<tipo>/<nome>` — `update-specification-branches`
+- [x] 🆕 Hook `pre-push` que bloqueia push na `main` e valida nomes de branch, com testes — `update-specification-branches`
 
 ### Planejamento
 - [x] Plano de implementação com fases, MVP e fichas das etapas — `add-implementation-plan`

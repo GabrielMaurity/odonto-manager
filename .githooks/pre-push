@@ -1,0 +1,32 @@
+#!/bin/sh
+# Valida pushes conforme a seção 14 do Docs/specification.md.
+
+types='build|ci|docs|feat|fix|perf|refactor|style|test|chore|env'
+name='[a-z0-9]+(-[a-z0-9]+)*'
+
+fail() {
+    {
+        printf 'Push rejeitado: %s\n\n' "$1"
+        printf 'Branches: <tipo>/<nome-da-change> ou <tipo>/<descricao-curta>\n'
+        printf 'Exemplo: feat/add-solution-skeleton\n'
+        printf 'Regras completas: Docs/specification.md, seção 14.\n'
+    } >&2
+    exit 1
+}
+
+while read -r local_ref local_sha remote_ref remote_sha || [ -n "${remote_ref:-}" ]; do
+    case "$remote_ref" in
+        refs/heads/*) branch=${remote_ref#refs/heads/} ;;
+        *) continue ;;
+    esac
+
+    if [ "$branch" = main ]; then
+        fail 'a main só recebe alterações por pull request'
+    fi
+
+    if ! printf '%s\n' "$branch" | LC_ALL=C grep -qxE "($types)/$name|claude/$name"; then
+        fail "nome de branch fora do padrão: \"$branch\""
+    fi
+done
+
+exit 0

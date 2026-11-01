@@ -2,7 +2,7 @@
 
 | Versão | Atualizada em | Norma superior |
 |--------|---------------|----------------|
-| 1.1.1  | 2026-11-01    | [`constitution.md`](constitution.md) v1.2.1 |
+| 1.2.0  | 2026-11-01    | [`constitution.md`](constitution.md) v1.2.1 |
 
 Este documento detalha **como** o Odonto Manager é construído: padrões, bibliotecas, estrutura e convenções técnicas. Ele é normativo (Artigo IV.8 da constituição) e subordinado à constituição: em caso de conflito, prevalece a constituição. As palavras **DEVE**, **NÃO DEVE** e **PODE** têm o mesmo sentido normativo da constituição.
 
@@ -21,6 +21,7 @@ Este documento detalha **como** o Odonto Manager é construído: padrões, bibli
 11. [Catálogo de pacotes](#11-catálogo-de-pacotes)
 12. [Atualização deste documento](#12-atualização-deste-documento)
 13. [Commits semânticos](#13-commits-semânticos)
+14. [Branches e pull requests](#14-branches-e-pull-requests)
 
 ---
 
@@ -716,3 +717,72 @@ git config core.hooksPath .githooks
 ```
 
 O comando é executado uma vez por clone. Os testes do hook ficam em `scripts/tests/commit-msg.test.sh` e rodam com `sh scripts/tests/commit-msg.test.sh`.
+
+## 14. Branches e pull requests
+
+Detalha o Artigo VII.5 da constituição.
+
+### 14.1 Branch principal
+
+- A `main` é a branch principal e DEVE estar sempre estável: compila, e todos os testes passam.
+- A `main` NÃO DEVE receber push direto. Todo código entra por pull request.
+- Não existem outras branches de longa duração (como `develop` ou `release`).
+
+### 14.2 Uma branch por trabalho
+
+Toda implementação, feature ou correção começa em uma branch nova, criada a partir da `main` atualizada:
+
+| Situação | Padrão | Exemplo |
+|----------|--------|---------|
+| Change do OpenSpec | `<tipo>/<nome-da-change>` | `feat/add-solution-skeleton`, `docs/update-plan-mvp` |
+| Trabalho fora de uma change (correção pontual, dependência) | `<tipo>/<descricao-curta>` | `fix/cpf-digito-zero`, `build/atualiza-npgsql` |
+
+- `<tipo>` é um dos tipos de commit da seção 13.2: `build`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `style`, `test`, `chore`, `env`.
+- O nome usa kebab-case: letras minúsculas sem acentos, números e hífens.
+- Uma change do OpenSpec corresponde a uma branch e a um pull request.
+- **Exceção:** branches `claude/<nome>`, criadas automaticamente por sessões do Claude Code na nuvem. O conteúdo e o pull request delas seguem as mesmas regras.
+
+### 14.3 Ciclo de vida
+
+```bash
+git switch main
+```
+
+```bash
+git pull
+```
+
+```bash
+git switch -c feat/add-solution-skeleton
+```
+
+1. Commits na branch, seguindo a seção 13.
+2. Push da branch e abertura do pull request para a `main`.
+3. O título do pull request DEVE seguir o formato de commit da seção 13, porque se torna a mensagem do commit na `main`. A descrição DEVE citar a change do OpenSpec e a etapa do `Docs/tasks.md`.
+4. A CI DEVE passar, e a branch DEVE estar atualizada com a `main`.
+5. Merge por **squash**: a `main` recebe um único commit por pull request.
+6. A branch é excluída após o merge.
+
+### 14.4 Validação local
+
+O hook `.githooks/pre-push`, ativado pelo mesmo `git config core.hooksPath .githooks` da seção 13.9:
+- rejeita qualquer push para a `main`, incluindo criação e exclusão;
+- rejeita branches fora do padrão de 14.2;
+- ignora tags.
+
+Os testes ficam em `scripts/tests/pre-push.test.sh`.
+
+### 14.5 Proteção no GitHub
+
+O hook local pode ser contornado, então a garantia real é a proteção da `main` no GitHub. Ela DEVE estar configurada assim:
+
+1. **Settings → General:**
+   - em *Default branch*, definir `main`;
+   - em *Pull Requests*, deixar habilitado apenas *Allow squash merging*, com *Default commit message* = *Pull request title*;
+   - marcar *Automatically delete head branches*.
+2. **Settings → Rules → Rulesets → New branch ruleset**, com alvo `main` e as regras:
+   - *Restrict deletions*;
+   - *Block force pushes*;
+   - *Require a pull request before merging*;
+   - *Require status checks to pass*, incluindo os checks da CI assim que ela existir (`add-solution-skeleton`);
+   - *Require branches to be up to date before merging*.
