@@ -2,7 +2,7 @@
 
 | Versão | Atualizada em | Norma superior |
 |--------|---------------|----------------|
-| 1.0.0  | 2026-11-01    | [`constitution.md`](constitution.md) v1.2.0 |
+| 1.1.0  | 2026-11-01    | [`constitution.md`](constitution.md) v1.2.0 |
 
 Este documento detalha **como** o Odonto Manager é construído: padrões, bibliotecas, estrutura e convenções técnicas. Ele é normativo (Artigo IV.8 da constituição) e subordinado à constituição: em caso de conflito, prevalece a constituição. As palavras **DEVE**, **NÃO DEVE** e **PODE** têm o mesmo sentido normativo da constituição.
 
@@ -20,6 +20,7 @@ Este documento detalha **como** o Odonto Manager é construído: padrões, bibli
 10. [Testes](#10-testes)
 11. [Catálogo de pacotes](#11-catálogo-de-pacotes)
 12. [Atualização deste documento](#12-atualização-deste-documento)
+13. [Commits semânticos](#13-commits-semânticos)
 
 ---
 
@@ -595,3 +596,122 @@ Pacotes aprovados. Qualquer pacote fora desta lista exige justificativa no `desi
   - **MINOR**: adiciona seção, regra ou pacote;
   - **PATCH**: esclarecimento sem mudança de sentido.
 - A tabela de versão no topo DEVE ser atualizada a cada alteração, inclusive a versão da constituição de referência.
+
+## 13. Commits semânticos
+
+Detalha o Artigo VII.4 da constituição. Todo commit DEVE seguir esta seção. A validação é feita localmente pelo hook `.githooks/commit-msg` e, no pull request, pela CI, que DEVE executar o mesmo script para cada commit.
+
+### 13.1 Formato
+
+```
+<tipo>(<escopo>)!: <descrição>
+
+<corpo>
+
+<rodapé>
+```
+
+- `(<escopo>)` é opcional; `!` só é usado em breaking changes (13.5).
+- O corpo e o rodapé são opcionais. Quando presentes, DEVEM vir separados do cabeçalho por uma linha em branco.
+
+### 13.2 Tipos
+
+| Tipo | Uso |
+|------|-----|
+| `feat` | Nova funcionalidade ou nova implementação no código |
+| `fix` | Correção de bug |
+| `perf` | Alteração de código que melhora o desempenho |
+| `refactor` | Mudança no código que não altera o comportamento |
+| `style` | Formatação sem efeito no significado do código (espaços, indentação, ponto e vírgula) |
+| `test` | Adição ou correção de testes automatizados |
+| `docs` | Somente documentação (`*.md`, artefatos do OpenSpec) |
+| `build` | Sistema de build e dependências externas |
+| `ci` | Arquivos e scripts da integração contínua |
+| `env` | Configuração de ambientes e containers |
+| `chore` | Ferramentas e manutenção que não chegam à produção |
+
+Os tipos `build`, `ci`, `env` e `chore` se sobrepõem. A fronteira entre eles é definida pelos arquivos afetados:
+
+| Tipo | Arquivos típicos |
+|------|------------------|
+| `build` | `*.csproj`, `*.slnx`, `Directory.Build.props`, `Directory.Packages.props`, `global.json` |
+| `ci` | `.github/workflows/*` |
+| `env` | `docker-compose.yaml`, `.env.example`, `Dockerfile`, `appsettings.*.json` |
+| `chore` | `.gitignore`, `.editorconfig`, `.githooks/*`, `scripts/*`, `openspec/config.yaml` |
+
+Quando um commit toca arquivos de mais de um tipo, vale o tipo do **objetivo** do commit (ex.: uma funcionalidade que inclui um novo pacote NuGet é `feat`). Se não houver objetivo predominante, o commit DEVE ser dividido.
+
+### 13.3 Escopos
+
+O escopo é opcional. Quando presente, DEVE ser um destes:
+
+| Grupo | Escopos |
+|-------|---------|
+| Bounded contexts (seção 2.1) | `identidade`, `pacientes`, `profissionais`, `agenda`, `materiais`, `exames` |
+| Áreas transversais | `api`, `web`, `infra`, `db`, `docker`, `deps`, `openspec`, `constituicao`, `especificacao` |
+
+Novos escopos exigem uma change `update-specification-commits`.
+
+### 13.4 Redação
+
+- O cabeçalho DEVE ter no máximo **72 caracteres**.
+- Tipo e escopo em minúsculas, seguidos de `: ` (dois-pontos e um espaço).
+- A descrição é escrita em pt-BR e DEVE:
+  - começar com verbo no **presente do indicativo** e em minúscula ("adiciona", "corrige", "remove");
+  - não terminar com ponto final;
+  - dizer **o que** muda.
+- O corpo explica o **porquê** e o contexto, não repete o diff.
+- O rodapé usa trailers do Git, um por linha: `BREAKING CHANGE: <descrição>`, `Refs: #123`.
+
+### 13.5 Breaking changes
+
+Uma mudança incompatível (contrato da API, schema sem migração compatível, configuração obrigatória nova) DEVE ter **as duas** marcações:
+
+1. `!` imediatamente antes dos dois-pontos do cabeçalho;
+2. o rodapé `BREAKING CHANGE: <o que quebra e como migrar>`.
+
+Uma marcação sem a outra é rejeitada.
+
+### 13.6 Trailers proibidos
+
+Em conformidade com o Artigo VII.4 da constituição, a mensagem NÃO DEVE conter `Co-authored-by:` nem `Signed-off-by:`, em qualquer combinação de maiúsculas e minúsculas.
+
+### 13.7 Mensagens geradas pelo Git
+
+São aceitas sem validação de formato as mensagens que o próprio Git gera: `Merge ...`, `Revert "..."`, `fixup! ...`, `squash! ...` e `amend! ...`. Os trailers proibidos (13.6) continuam valendo para elas.
+
+### 13.8 Exemplos
+
+Válidos:
+
+```
+feat(agenda): adiciona remarcação de consultas
+fix(pacientes): corrige validação de CPF com dígito zero
+env(docker): fixa imagem do pgAdmin na versão 9.19
+build(deps): atualiza Npgsql para 10.0.1
+docs: descreve fluxo de pedidos de material
+refactor(api)!: renomeia rota de cancelamento de consulta
+
+BREAKING CHANGE: POST /api/v1/agenda/consultas/{id}/cancelar passa a ser
+POST /api/v1/agenda/consultas/{id}/cancelamento.
+```
+
+Inválidos:
+
+| Mensagem | Motivo |
+|----------|--------|
+| `Adiciona agenda` | Sem tipo |
+| `feature: adiciona agenda` | Tipo desconhecido |
+| `feat(calendario): adiciona agenda` | Escopo desconhecido |
+| `feat:adiciona agenda` | Falta o espaço após `:` |
+| `feat: Adiciona agenda` | Descrição com maiúscula inicial |
+| `feat: adiciona agenda.` | Ponto final |
+| `feat!: remove endpoint legado` (sem rodapé) | `!` sem `BREAKING CHANGE` |
+
+### 13.9 Ativação do hook
+
+```bash
+git config core.hooksPath .githooks
+```
+
+O comando é executado uma vez por clone. Os testes do hook ficam em `scripts/tests/commit-msg.test.sh` e rodam com `sh scripts/tests/commit-msg.test.sh`.

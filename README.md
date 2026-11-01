@@ -47,3 +47,13 @@ docker compose --profile tools down -v
 ```
 
 O arquivo `.env` contém credenciais e não é versionado; altere as senhas de exemplo se o ambiente não for apenas local.
+
+## Commits
+
+O projeto usa commits semânticos (Conventional Commits em pt-BR). Ative o hook que valida as mensagens, uma vez por clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Formato: `<tipo>(<escopo>)!: <descrição>`, por exemplo `feat(agenda): adiciona remarcação de consultas`. Tipos, escopos e regras completas estão na [seção 13 do `specification.md`](specification.md#13-commits-semânticos).

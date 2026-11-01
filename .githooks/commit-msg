@@ -1,0 +1,75 @@
+#!/bin/sh
+# Valida mensagens de commit conforme a seção 13 do specification.md.
+
+types='build|ci|docs|feat|fix|perf|refactor|style|test|chore|env'
+scopes='identidade|pacientes|profissionais|agenda|materiais|exames|api|web|infra|db|docker|deps|openspec|constituicao|especificacao'
+max_length=72
+
+fail() {
+    {
+        printf 'Mensagem de commit inválida: %s\n\n' "$1"
+        printf 'Formato: <tipo>(<escopo>)!: <descrição>\n'
+        printf 'Exemplo: feat(agenda): adiciona remarcação de consultas\n'
+        printf 'Regras completas: specification.md, seção 13.\n'
+    } >&2
+    exit 1
+}
+
+message=$(grep -v '^#' "$1")
+header=$(printf '%s\n' "$message" | sed -n '1p')
+second_line=$(printf '%s\n' "$message" | sed -n '2p')
+
+if printf '%s\n' "$message" | grep -qiE '^(co-authored-by|signed-off-by):'; then
+    fail 'trailers Co-authored-by e Signed-off-by não são permitidos'
+fi
+
+case "$header" in
+    'Merge '* | 'Revert "'* | 'fixup! '* | 'squash! '* | 'amend! '*) exit 0 ;;
+esac
+
+[ -n "$header" ] || fail 'mensagem vazia'
+
+if ! printf '%s\n' "$header" | grep -qE '^[a-z]+(\([a-z]+\))?!?: '; then
+    fail "cabeçalho fora do formato: \"$header\""
+fi
+
+type=$(printf '%s\n' "$header" | sed 's/^\([a-z]*\).*/\1/')
+if ! printf '%s\n' "$type" | grep -qxE "$types"; then
+    fail "tipo desconhecido \"$type\" (permitidos: $(printf '%s' "$types" | sed 's/|/, /g'))"
+fi
+
+if printf '%s\n' "$header" | grep -qE '^[a-z]+\('; then
+    scope=$(printf '%s\n' "$header" | sed 's/^[a-z]*(\([a-z]*\)).*/\1/')
+    if ! printf '%s\n' "$scope" | grep -qxE "$scopes"; then
+        fail "escopo desconhecido \"$scope\" (permitidos: $(printf '%s' "$scopes" | sed 's/|/, /g'))"
+    fi
+fi
+
+description=$(printf '%s\n' "$header" | sed 's/^[^:]*: //')
+[ -n "$description" ] || fail 'descrição vazia'
+
+if printf '%s\n' "$description" | LC_ALL=C grep -qE '^([A-Z]|Á|À|Â|Ã|É|Ê|Í|Ó|Ô|Õ|Ú|Ç)'; then
+    fail 'a descrição deve começar com letra minúscula'
+fi
+
+case "$description" in
+    *.) fail 'a descrição não deve terminar com ponto final' ;;
+esac
+
+length=$(printf '%s' "$header" | LC_ALL=C tr -d '\200-\277' | wc -c | tr -d ' ')
+if [ "$length" -gt "$max_length" ]; then
+    fail "cabeçalho com $length caracteres (máximo $max_length)"
+fi
+
+[ -z "$second_line" ] || fail 'o corpo deve ser separado do cabeçalho por uma linha em branco'
+
+has_bang=false
+has_footer=false
+printf '%s\n' "$header" | grep -qE '^[^:]*!: ' && has_bang=true
+printf '%s\n' "$message" | grep -qE '^BREAKING CHANGE: .+' && has_footer=true
+
+if [ "$has_bang" != "$has_footer" ]; then
+    fail 'breaking change exige "!" no cabeçalho e o rodapé "BREAKING CHANGE: <descrição>"'
+fi
+
+exit 0
