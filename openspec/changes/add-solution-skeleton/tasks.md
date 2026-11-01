@@ -37,10 +37,10 @@
 
 ## 7. Transversais e health checks
 
-- [ ] 7.1 Registrar `TimeProvider` e `ClinicaOptions` com validação do fuso e `ValidateOnStart` (D6); verificar com teste de integração de que a API não inicia com um fuso inválido
-- [ ] 7.2 Configurar OpenTelemetry com exportador OTLP condicionado à variável de ambiente (D6); verificar com teste de que a API inicia sem `OTEL_EXPORTER_OTLP_ENDPOINT` definido
-- [ ] 7.3 Configurar `/health/live` e `/health/ready` com o check do PostgreSQL (D6); verificar com testes de integração de todos os cenários de `platform/health-checks`, inclusive banco parado (container pausado) e corpo sem detalhes fora de `Development`
-- [ ] 7.4 Configurar User Secrets no `Api` e executar a API com `dotnet run` contra o PostgreSQL do `docker-compose.yaml`; verificar que `curl http://localhost:5080/health/ready` responde 200 e, com o `postgres` parado, 503
+- [x] 7.1 Registrar `TimeProvider` e `ClinicaOptions` com validação do fuso e `ValidateOnStart` (D6); verificar com teste de integração de que a API não inicia com um fuso inválido
+- [x] 7.2 Configurar OpenTelemetry com exportador OTLP condicionado à variável de ambiente (D6); verificar com teste de que a API inicia sem `OTEL_EXPORTER_OTLP_ENDPOINT` definido
+- [x] 7.3 Configurar `/health/live` e `/health/ready` com o check do PostgreSQL (D6); verificar com testes de integração de todos os cenários de `platform/health-checks`, inclusive banco inacessível (connection string para uma porta fechada, para não afetar os testes que compartilham o container) e corpo sem detalhes fora de `Development`
+- [x] 7.4 Configurar User Secrets no `Api` e executar a API com `dotnet run` contra o PostgreSQL do `docker-compose.yaml`; verificar que `curl http://localhost:5080/health/ready` responde 200 e, com o `postgres` parado, 503
 
 ## 8. Web base
 

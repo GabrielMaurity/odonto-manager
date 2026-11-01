@@ -6,10 +6,13 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddObservability();
+
 builder.Services.AddApplication(typeof(OdontoManager.Infrastructure.AssemblyMarker).Assembly);
 builder.Services.AddApiProblemDetails();
 builder.Services.AddWebCors(builder.Configuration);
 builder.Services.AddOpenApi();
+builder.Services.AddApiHealthChecks(builder.Configuration);
 
 var app = builder.Build();
 
@@ -29,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+app.MapApiHealthChecks(app.Environment);
 
 var api = app.MapGroup("/api/v1");
 foreach (var module in app.Services.GetServices<IApiModule>())

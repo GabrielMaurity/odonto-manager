@@ -1,7 +1,10 @@
 using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using OdontoManager.Application.Abstractions;
+using OdontoManager.Application.Abstractions.Clinica;
 using OdontoManager.Application.Abstractions.Decorators;
 using OdontoManager.Application.Abstractions.Messaging;
 
@@ -31,6 +34,10 @@ public static class DependencyInjection
         services.TryDecorate(typeof(ICommandHandler<,>), typeof(ValidationCommandHandler<,>));
         services.TryDecorate(typeof(ICommandHandler<,>), typeof(LoggingCommandHandler<,>));
         services.TryDecorate(typeof(IQueryHandler<,>), typeof(LoggingQueryHandler<,>));
+
+        services.TryAddSingleton(TimeProvider.System);
+        services.AddOptions<ClinicaOptions>().BindConfiguration(ClinicaOptions.SectionName).ValidateOnStart();
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IValidateOptions<ClinicaOptions>, ClinicaOptionsValidator>());
 
         return services;
     }
