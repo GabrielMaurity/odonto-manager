@@ -2,42 +2,50 @@
 
 ## Context
 
-Estado atual: as quatro changes de fundação estão concluídas (aguardando arquivamento). Ainda não há código .NET, pipeline de CI nem specs em `openspec/specs/`. A ordem das entregas está no Artigo IX da constituição; a arquitetura e os padrões estão no Artigo IV e no `specification.md` (seções 2 e 9). Decisões do responsável: fases **sem datas** e MVP = **agenda funcionando**. A motivação está em proposal.md — Why.
+Estado atual: as quatro changes de fundação estão concluídas (aguardando arquivamento). Ainda não há código .NET, pipeline de CI nem specs em `openspec/specs/`. A ordem das entregas está no Artigo IX da constituição; a arquitetura e os padrões estão no Artigo IV e no `specification.md` (seções 2 e 9). Decisões do responsável: fases **sem datas**, MVP = **agenda funcionando** e três documentos de planejamento (`plan.md`, `Tasks.md`, `Checklist.md`). A motivação está em proposal.md — Why.
 
 ## Goals / Non-Goals
 
 **Goals:**
-- Cada change do roadmap ter escopo inicial, dependências e critérios de pronto antes do `/opsx:propose`.
+- Cada change do roadmap ter escopo inicial, tarefas macro, dependências e critérios de pronto antes do `/opsx:propose`.
 - Nenhum requisito transversal da constituição ficar sem change responsável.
-- Ter um único lugar para consultar o andamento do projeto.
+- Um único lugar para consultar o andamento do projeto, que cresce junto com novas necessidades.
+- Nenhuma informação duplicada entre os três documentos.
 
 **Non-Goals:**
 - Datas, sprints e estimativas em horas.
-- Requisitos detalhados de cada módulo: ficam nas specs da própria change. As fichas do plano são escopo inicial, refinado no propose.
+- Requisitos detalhados de cada módulo: ficam nas specs e no `tasks.md` da própria change.
 - Funcionalidades fora do Artigo I (financeiro, convênios, portal do paciente).
 
 ## Decisions
 
-### D1. Papel do `plan.md`: planejamento vivo, não normativo
-A constituição e o `specification.md` são normativos; o `plan.md` é **orientativo** e muda com frequência (o status, por exemplo). Por isso ele não usa DEVE/NÃO DEVE para regras de produto, e alterá-lo não exige change dedicada: cada change atualiza sua própria ficha e o quadro de acompanhamento. Mudanças de escopo de fase ou de MVP, porém, exigem uma change `update-plan-<tema>`.
-- *Alternativa*: incorporar o plano ao Artigo IX. Rejeitada: toda atualização de status viraria emenda.
+### D1. Três documentos, uma informação em cada lugar
+| Documento | Pergunta | Conteúdo | Não contém |
+|-----------|----------|----------|------------|
+| `plan.md` | O quê e por quê? | Fases, marcos, dependências, fichas, transversais, Definição de Pronto, manutenção | Lista de tarefas, status |
+| `Tasks.md` | Como quebrar? | Partes (fases) → etapas (changes) → tarefas macro numeradas | Critérios, riscos, status de entregas |
+| `Checklist.md` | Onde estamos? | Entregas do projeto como checkboxes, por fase e módulo, com a change de origem | Tarefas de implementação, justificativas |
 
-### D2. Fases e MVP
+Os três são **orientativos**: não usam DEVE/NÃO DEVE para regras de produto, ao contrário da constituição e do `specification.md`. Cada documento referencia os outros por link em vez de repetir conteúdo.
+- *Alternativa*: um único `plan.md` com tudo. Rejeitada a pedido do responsável e porque o status muda com muito mais frequência que o planejamento.
+
+### D2. Nomes dos arquivos
+`Tasks.md` e `Checklist.md` mantêm a grafia pedida pelo responsável, com inicial maiúscula. O `Tasks.md` da raiz não conflita com o `tasks.md` de cada change do OpenSpec, que fica em `openspec/changes/<change>/`. Para evitar confusão, o cabeçalho do `Tasks.md` explica a relação entre os dois.
+
+### D3. Fases e MVP (`plan.md`)
 | Fase | Changes | Marco ao final |
 |------|---------|----------------|
-| 0. Fundação | `add-project-constitution`, `amend-constitution-docker`, `amend-constitution-ddd`, `update-specification-commits` | Regras do projeto definidas (concluída) |
+| 0. Fundação | `add-project-constitution`, `amend-constitution-docker`, `amend-constitution-ddd`, `update-specification-commits`, `add-implementation-plan` | Regras e planejamento definidos |
 | 1. Base técnica | `add-solution-skeleton` | Solução compila, testes e CI verdes, API e Web sobem no Docker |
 | 2. MVP | `add-identity-access`, `add-patient-registry`, `add-dentist-profile`, `add-appointment-scheduling` | **MVP**: a recepção agenda, e o dentista vê e gerencia sua agenda |
 | 3. Expansão | `add-material-requests`, `add-exam-files` | Escopo completo do Artigo I |
 
 A ordem do Artigo IX é mantida. `add-patient-registry` e `add-dentist-profile` só dependem de `add-identity-access` e PODEM ser desenvolvidas em paralelo.
 
-### D3. Ficha padrão por change
-Cada change tem: **objetivo**, **bounded context**, **entregas iniciais**, **depende de**, **critérios de pronto** específicos, **riscos** e **tamanho** (P = até 3 grupos de tarefas, M = 4 a 6, G = 7 ou mais, medidos pelo `tasks.md` previsto). O tamanho relativo dispensa datas e ainda permite comparar esforço.
+### D4. Ficha padrão por change (`plan.md`)
+Cada change tem: **objetivo**, **bounded context**, **depende de**, **critérios de pronto** específicos, **riscos** e **tamanho** (P = até 3 grupos de tarefas, M = 4 a 6, G = 7 ou mais). As entregas não ficam na ficha, e sim na etapa correspondente do `Tasks.md` (D6).
 
-### D4. Responsável por cada requisito transversal
-Requisitos da constituição que não pertencem a um único módulo ganham uma change responsável explícita:
-
+### D5. Responsável por cada requisito transversal (`plan.md`)
 | Requisito | Origem | Change responsável |
 |-----------|--------|--------------------|
 | Pipeline de CI (build, analisadores, testes, validação de commits) | Constituição VII.6; specification 13 | `add-solution-skeleton` |
@@ -51,28 +59,41 @@ Requisitos da constituição que não pertencem a um único módulo ganham uma c
 | Trilha de auditoria de dados clínicos | Constituição VI.2 | `add-exam-files`, o primeiro módulo com dado clínico |
 | Criptografia de arquivos em repouso | Constituição VI.3 | `add-exam-files` |
 
-O painel do dentista é a dependência mais sutil: o perfil (Profissionais) vem antes da agenda, mas o pedido inicial era um painel onde o dentista vê consultas, pede material e acessa exames. A solução é `add-dentist-profile` criar o painel com os dados do próprio dentista, e cada módulo posterior acrescentar seu bloco nele.
+### D6. Estrutura do `Tasks.md`
+- **Parte** = fase do `plan.md`; **etapa** = change; **tarefa macro** = bloco de trabalho que vira um ou mais grupos no `tasks.md` da change.
+- Numeração estável `P<fase>.E<etapa>.T<tarefa>` (ex.: `P1.E1.T3`), para que proposals e o `Checklist.md` possam referenciar tarefas sem ambiguidade.
+- Cada etapa traz: a change correspondente, o link para o `tasks.md` dela (quando existir) e as tarefas macro, cada uma com uma linha dizendo o que entrega.
+- Quando uma change é proposta, as tarefas macro da etapa são detalhadas no `tasks.md` da change; o `Tasks.md` não é reescrito com o detalhe, apenas ganha o link.
 
-### D5. Definição de Pronto comum
+### D7. Estrutura do `Checklist.md`
+- Agrupado por fase e, dentro de cada fase, por módulo ou área.
+- Cada item é uma **entrega verificável** do ponto de vista do projeto (ex.: "Recepção marca consulta para qualquer dentista"), e não uma tarefa técnica. Cada item indica a change responsável e, quando concluído, a change que o entregou.
+- Um resumo no topo mostra o progresso por fase (itens concluídos / total) e o marco MVP.
+- **Novas necessidades**: um item novo entra na fase adequada com a marcação 🆕 e a change ou decisão que o originou. Se o item não couber em nenhuma change existente, ele também vai para a seção "Pendente de planejamento", até que `plan.md` e `Tasks.md` o incorporem.
+- **Itens removidos** não são apagados: são riscados com o motivo, para preservar o histórico de decisões.
+
+### D8. Definição de Pronto comum (`plan.md`)
 Uma change só é concluída quando:
 - todas as tarefas estão marcadas e o `openspec validate` passa;
 - build, analisadores e todos os testes passam (localmente e, a partir da Fase 1, na CI);
 - os testes de arquitetura passam;
 - os critérios de pronto da ficha foram atendidos;
 - o glossário (specification 2.3) foi atualizado, quando a change introduz termos novos;
-- o quadro de acompanhamento do `plan.md` foi atualizado;
+- o `Tasks.md` e o `Checklist.md` foram atualizados;
 - a change foi arquivada (`/opsx:archive`), com as specs sincronizadas em `openspec/specs/`.
 
-### D6. Integração com o fluxo OpenSpec
-Duas regras novas no `openspec/config.yaml`:
-- `proposal`: citar a ficha do `plan.md` correspondente e justificar qualquer desvio de escopo em relação a ela;
-- `tasks`: incluir, no último grupo, a tarefa de atualizar o quadro de acompanhamento do `plan.md`.
-
-Assim o plano se mantém atualizado sem depender de memória.
+### D9. Manutenção e integração com o OpenSpec
+- Atualizar status (`Checklist.md`) e links (`Tasks.md`) faz parte de cada change e não exige change própria.
+- Mudar o escopo de uma fase, o MVP, a ordem das etapas ou as fichas exige uma change `update-plan-<tema>`.
+- Regras novas no `openspec/config.yaml`:
+  - `proposal`: citar a ficha do `plan.md` e a etapa do `Tasks.md`, e justificar desvios de escopo;
+  - `tasks`: incluir, no último grupo, a tarefa de atualizar o `Tasks.md` (link e ajustes) e o `Checklist.md` (itens entregues e novas necessidades).
 
 ## Risks / Trade-offs
 
-- [Plano desatualizar em relação às changes] → A regra de `tasks` (D6) e a Definição de Pronto (D5) obrigam a atualização a cada change.
-- [Fichas detalhadas demais engessarem o propose] → As fichas são escopo **inicial**: o propose pode refiná-las, desde que registre o desvio na proposal.
-- [`add-solution-skeleton` ficar grande demais (G)] → A ficha lista as entregas em blocos independentes; se o propose identificar mais de 10 grupos de tarefas, a change DEVE ser dividida (ex.: `add-ci-pipeline` separado), registrando a divisão no `plan.md`.
-- [Auditoria só chegar na Fase 3] → Pacientes e Agenda têm dados pessoais, mas não clínicos (Artigo VI.2 cobre dados clínicos e exames). Os logs técnicos sem dados pessoais (specification 8.2) valem desde o início.
+- [Documentos desatualizarem em relação às changes] → A regra de `tasks` (D9) e a Definição de Pronto (D8) obrigam a atualização a cada change.
+- [Duplicação entre os três documentos] → A tabela de D1 define o que cada um *não* contém; a tarefa final de verificação procura conteúdo repetido.
+- [Confusão entre `Tasks.md` (raiz) e `tasks.md` (change)] → Cabeçalho explicativo (D2) e links diretos entre eles (D6).
+- [Tarefas macro detalhadas demais engessarem o propose] → São ponto de partida: o propose pode refiná-las, desde que registre o desvio na proposal.
+- [`add-solution-skeleton` ficar grande demais (G)] → Se o propose identificar mais de 10 grupos de tarefas, a change DEVE ser dividida (ex.: `add-ci-pipeline`), registrando a divisão nos três documentos.
+- [Auditoria só chegar na Fase 3] → Pacientes e Agenda têm dados pessoais, mas não clínicos (o Artigo VI.2 cobre dados clínicos e exames). Os logs técnicos sem dados pessoais (specification 8.2) valem desde o início.
