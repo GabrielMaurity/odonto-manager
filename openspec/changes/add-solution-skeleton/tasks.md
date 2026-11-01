@@ -32,8 +32,8 @@
 
 ## 6. Persistência base
 
-- [ ] 6.1 Implementar `ModuleDbContext`, `AddModuleDbContext<TContext>` e as conversões dos IDs do Shared Kernel (D5); verificar com teste de integração, usando um `DbContext` só de teste, que a tabela é criada no schema do módulo, em snake_case, com IDs `uuid`
-- [ ] 6.2 Implementar o `DomainEventsInterceptor` (D5); verificar com testes de integração que os eventos são despachados após o commit, que não são despachados quando o `SaveChanges` falha e que a falha de um handler não impede os demais
+- [x] 6.1 Implementar `ModuleDbContext`, `AddModuleDbContext<TContext>` e as conversões dos IDs do Shared Kernel (D5); verificar com teste de integração, usando um `DbContext` só de teste, que a tabela é criada no schema do módulo, em snake_case, com IDs `uuid`
+- [x] 6.2 Implementar o `DomainEventsInterceptor` (D5); verificar com testes de integração que os eventos são despachados após o commit, que não são despachados quando o `SaveChanges` falha e que a falha de um handler não impede os demais
 
 ## 7. Transversais e health checks
 
