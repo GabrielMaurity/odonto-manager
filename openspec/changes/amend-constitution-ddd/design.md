@@ -30,14 +30,14 @@ Os seis módulos são bounded contexts com linguagem ubíqua própria. O `specif
 ### D3. DDD tático
 - **Agregados** protegem invariantes; só a raiz é acessível de fora; agregados se referenciam apenas por ID; uma transação altera um único agregado. Se for preciso alterar mais de um, o caminho é um evento de domínio.
 - **Entidades** com construtores privados e métodos de fábrica que validam invariantes; setters públicos são proibidos.
-- **Objetos de valor** como `record` imutáveis com validação na criação (ex.: `Cpf`, `Email`, `Telefone`, `IntervaloDeHorario`).
+- **Objetos de valor** como `sealed record` imutáveis, sem classe base `ValueObject`, com validação na criação (ex.: `Cpf`, `Email`, `Telefone`, `IntervaloDeHorario`).
 - **IDs fortemente tipados** (`readonly record struct PacienteId(Guid Value)`) gerados com `Guid.CreateVersion7()`, ordenáveis por tempo e melhores para índices no PostgreSQL que o GUID v4.
-- **Eventos de domínio** registrados pela raiz do agregado e despachados por um interceptor do EF Core no `SaveChanges`, dentro da mesma transação. Consumo entre módulos de forma assíncrona e confiável (outbox) fica para quando surgir a necessidade.
-- **Repositórios** apenas para raízes de agregado, com interface em `Domain` e implementação em `Infrastructure`. O `DbContext` do módulo faz o papel de Unit of Work.
-- **Building blocks** (`Entity`, `AggregateRoot`, `ValueObject`, `IDomainEvent`, `Result`) ficam em uma pasta `SharedKernel` dentro de `Domain`.
+- **Eventos de domínio** registrados pela raiz do agregado e despachados por um interceptor do EF Core **após o commit** (`SavedChangesAsync`). Como há um `DbContext` por módulo (D8), não existe transação única entre contextos; por isso os handlers DEVEM ser idempotentes. O Outbox fica como evolução prevista.
+- **Repositórios** apenas para raízes de agregado, com interface em `Domain` e implementação em `Infrastructure`. A tabela do Artigo IV.1 da constituição, que colocava as interfaces de repositório em `Application`, é ajustada nesta emenda. O `DbContext` do módulo faz o papel de Unit of Work.
+- **Building blocks** (`Entity`, `AggregateRoot`, `IDomainEvent`, `Result`, `Error` e os IDs compartilhados entre contextos) ficam em uma pasta `SharedKernel` dentro de `Domain`.
 
 ### D4. Camada de aplicação: CQRS com handlers próprios
-Interfaces `ICommandHandler<TCommand, TResult>` e `IQueryHandler<TQuery, TResult>` registradas por DI (scan de assembly com Scrutor, licença MIT). Preocupações transversais (validação, logging, transação) são aplicadas como decorators, o que respeita o OCP. Consultas PODEM ler direto do `DbContext` com projeções (`AsNoTracking`) sem passar por repositório.
+Interfaces `ICommandHandler<TCommand, TResult>` e `IQueryHandler<TQuery, TResult>` registradas por DI (scan de assembly com Scrutor, licença MIT). Preocupações transversais (validação, logging, transação) são aplicadas como decorators, o que respeita o OCP. Consultas leem com projeções (`AsNoTracking`) sem passar por repositório; como `Application` não depende de EF Core, o handler de consulta é implementado em `Infrastructure`, e a consulta e seu DTO ficam em `Application`.
 - *Alternativas*: MediatR (licença comercial desde a v13) e Wolverine (complexidade além do necessário). Decisão do responsável.
 
 ### D5. Erros: Result pattern + ProblemDetails
@@ -71,7 +71,7 @@ Arquivo de solução `.slnx`, com `src/` (projetos do Artigo IV.1, organizados i
 - *Alternativa*: projetos separados por módulo (`Agenda.Domain`, `Agenda.Application`...). Rejeitada por agora: seriam 24 ou mais projetos. As fronteiras entre módulos são garantidas por testes de arquitetura, e a separação física continua possível no futuro.
 
 ### D11. Testes de arquitetura
-NetArchTest.Rules (MIT) para verificar automaticamente: a regra de dependência entre camadas, `Domain` sem referência a EF Core/ASP.NET Core, ausência de referências cruzadas entre namespaces de módulos, e entidades sem setters públicos.
+NetArchTest.Rules (MIT) para verificar automaticamente (o FluentAssertions do Artigo III fica fixado em 7.x, última versão Apache-2.0): a regra de dependência entre camadas, `Domain` sem referência a EF Core/ASP.NET Core, ausência de referências cruzadas entre namespaces de módulos, e entidades sem setters públicos.
 
 ### D12. Catálogo de pacotes
 O `specification.md` lista os pacotes aprovados com licença e finalidade. Pacotes fora do catálogo exigem justificativa no `design.md` da change que os introduz (regra já existente) e a atualização do catálogo.

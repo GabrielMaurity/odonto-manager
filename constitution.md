@@ -2,7 +2,7 @@
 
 | Versão | Ratificada em | Última emenda |
 |--------|---------------|---------------|
-| 1.1.0  | 2026-11-01    | 2026-11-01 (Docker no ambiente local) |
+| 1.2.0  | 2026-11-01    | 2026-11-01 (DDD e specification.md) |
 
 Este documento define os princípios, decisões estruturais e convenções que regem o desenvolvimento do Odonto Manager. Toda change, spec, design, tarefa e linha de código DEVE estar em conformidade com ele. Em caso de conflito entre esta constituição e qualquer outro artefato, prevalece a constituição até que seja emendada (Artigo X).
 
@@ -35,6 +35,10 @@ As palavras **DEVE**, **NÃO DEVE** e **PODE** têm sentido normativo: obrigaç�
 4. **Segurança e privacidade por padrão.** Dados de pacientes são dados pessoais sensíveis de saúde; os requisitos do Artigo VI são obrigatórios desde a primeira linha de código.
 5. **Código autoexplicativo.** Nomes DEVEM expressar intenção. Comentários só DEVEM existir quando explicam um *porquê* não óbvio (regra legal, contorno de bug externo, decisão de desempenho). Comentários que repetem o que o código faz NÃO DEVEM ser escritos.
 6. **Simplicidade.** Abstrações NÃO DEVEM ser criadas sem necessidade concreta; uma interface com uma única implementação só é aceita quando existe por inversão de dependência entre camadas ou para testabilidade.
+7. **DDD (Domain-Driven Design).** O backend DEVE ser modelado com DDD:
+   - as regras de negócio DEVEM viver no modelo de domínio (entidades, agregados, objetos de valor), e não em handlers, endpoints ou na persistência;
+   - código, specs e conversas DEVEM usar a linguagem ubíqua de cada bounded context, registrada no glossário do `specification.md`;
+   - os padrões táticos (agregados, objetos de valor, eventos de domínio, repositórios por raiz de agregado) DEVEM seguir as regras do `specification.md`.
 
 ## Artigo III — Stack tecnológica
 
@@ -61,8 +65,8 @@ As palavras **DEVE**, **NÃO DEVE** e **PODE** têm sentido normativo: obrigaç�
 
    | Projeto | Responsabilidade | Pode depender de |
    |---------|------------------|------------------|
-   | `Domain` | Entidades, objetos de valor, regras de negócio invariantes, eventos de domínio | nada |
-   | `Application` | Casos de uso (handlers), interfaces de repositório e serviços externos, validações de entrada | `Domain` |
+   | `Domain` | Agregados, entidades, objetos de valor, eventos de domínio, serviços de domínio, interfaces de repositório | nada |
+   | `Application` | Casos de uso (handlers), interfaces de serviços externos, validações de entrada | `Domain` |
    | `Infrastructure` | EF Core, repositórios, armazenamento de arquivos, integrações externas | `Application`, `Domain` |
    | `Contracts` | DTOs de request/response da API | nada |
    | `Api` | Endpoints HTTP, autenticação, composição de DI | `Application`, `Infrastructure`, `Contracts` |
@@ -70,10 +74,11 @@ As palavras **DEVE**, **NÃO DEVE** e **PODE** têm sentido normativo: obrigaç�
 
 2. **Regra de dependência.** As dependências DEVEM apontar para o `Domain`. `Domain` NÃO DEVE referenciar EF Core, ASP.NET Core ou qualquer biblioteca de infraestrutura.
 3. **Frontend desacoplado.** `Web` e `Web.Client` NÃO DEVEM referenciar `Application`, `Infrastructure` ou `Domain`; a comunicação com o backend DEVE ocorrer exclusivamente por HTTP, usando clientes tipados. Componentes de `Web.Client` NÃO DEVEM depender de APIs exclusivas do servidor.
-4. **Monólito modular.** O sistema é um único deploy, dividido nos módulos: **Identidade e Acesso**, **Pacientes**, **Profissionais**, **Agenda**, **Materiais** e **Exames**.
+4. **Monólito modular.** O sistema é um único deploy, dividido nos módulos: **Identidade e Acesso**, **Pacientes**, **Profissionais**, **Agenda**, **Materiais** e **Exames**. Cada módulo é um *bounded context* do DDD, com modelo e linguagem ubíqua próprios.
 5. Um módulo NÃO DEVE acessar entidades, repositórios ou tabelas de outro módulo; a interação entre módulos DEVE ocorrer por contratos públicos da camada `Application` ou por eventos de domínio.
 6. Dentro de `Application`, o código DEVE ser organizado por módulo e por funcionalidade (feature folders).
 7. Componentes de terceiros (ex.: Scheduler do Radzen) DEVEM ser encapsulados em componentes próprios do projeto, permitindo sua substituição sem afetar as telas.
+8. **Especificação técnica.** O `specification.md`, na raiz do repositório, detalha padrões, bibliotecas, estrutura e convenções técnicas e DEVE ser seguido. Ele é subordinado a esta constituição e NÃO DEVE contradizê-la; em caso de conflito, prevalece a constituição.
 
 ## Artigo V — Perfis de acesso
 
@@ -115,7 +120,7 @@ As palavras **DEVE**, **NÃO DEVE** e **PODE** têm sentido normativo: obrigaç�
 
 1. Toda funcionalidade ou mudança de comportamento DEVE nascer de uma change OpenSpec com `proposal.md`, specs delta, `design.md` (quando aplicável) e `tasks.md`.
 2. As specs em `openspec/specs/` são a fonte da verdade do comportamento do sistema; o código DEVE refletir as specs, e não o contrário.
-3. O `design.md` de cada change DEVE citar os artigos desta constituição que afeta ou nos quais se apoia.
+3. O `design.md` de cada change DEVE citar os artigos desta constituição e as seções do `specification.md` que afeta ou nos quais se apoia.
 4. Cada grupo de tarefas DEVE entregar seus próprios testes; testes NÃO DEVEM ser adiados para um grupo final.
 5. Uma change só PODE ser arquivada quando todas as tarefas estiverem concluídas e os testes passando.
 6. Mudanças puramente técnicas (refatoração, ferramentas, documentação) PODEM declarar `skip_specs: true`.
@@ -143,3 +148,4 @@ A ordem PODE ser alterada quando a dependência entre módulos permitir, desde q
    - **MINOR**: novo artigo, princípio ou item de stack;
    - **PATCH**: esclarecimentos e correções de redação sem mudança de sentido.
 4. A tabela de versão no topo deste documento DEVE ser atualizada a cada emenda.
+5. Alterações no `specification.md` NÃO exigem emenda: DEVEM ser feitas por uma change OpenSpec `update-specification-<tema>`, desde que não contradigam esta constituição. Se contradisserem, a change DEVE ser uma emenda.

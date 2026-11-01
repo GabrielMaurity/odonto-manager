@@ -6,8 +6,11 @@ context: |
   Keep OpenSpec structural headings and SHALL/MUST keywords in English.
 
   Projeto: Odonto Manager, sistema de gestão de clínicas odontológicas.
-  Todo artefato e todo código DEVEM respeitar /constitution.md, que prevalece em caso de conflito.
+  Todo artefato e todo código DEVEM respeitar /constitution.md, que prevalece em caso de conflito,
+  e /specification.md, a especificação técnica normativa (padrões, bibliotecas, estrutura).
   Resumo dos princípios inegociáveis:
+  - DDD: cada módulo é um bounded context; agregados, objetos de valor, IDs tipados (GUID v7), eventos de domínio e linguagem ubíqua conforme specification.md.
+  - Backend: Minimal APIs, CQRS com handlers próprios (sem MediatR), Result pattern + ProblemDetails, DbContext e schema PostgreSQL por módulo.
   - SOLID e Clean Architecture (Domain <- Application <- Infrastructure/Api; Web/Web.Client dependem apenas de Contracts e falam com o backend via HTTP).
   - Monólito modular: Identidade e Acesso, Pacientes, Profissionais, Agenda, Materiais, Exames; módulos não acessam entidades ou tabelas uns dos outros.
   - Stack: .NET 10, ASP.NET Core Web API, EF Core + PostgreSQL, Blazor Web App (Interactive Auto) com Radzen Blazor; testes com xUnit, Testcontainers, bUnit e Playwright.
@@ -20,7 +23,7 @@ rules:
   proposal:
     - Indicar o módulo (Artigo IV da constituição) a que a change pertence.
   design:
-    - Citar os artigos da constituição afetados ou nos quais cada decisão se apoia.
+    - Citar os artigos da constituição e as seções do specification.md afetados ou nos quais cada decisão se apoia.
     - Justificar toda nova dependência externa (licença, manutenção, motivo).
   tasks:
     - Cada grupo de tarefas DEVE incluir as tarefas de teste da própria funcionalidade; não criar grupo final só de testes.
