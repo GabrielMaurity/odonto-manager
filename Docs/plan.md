@@ -28,7 +28,7 @@ As fases não têm datas; o esforço de cada etapa é indicado pelo tamanho rela
 | Fase | Etapas (changes) | Marco ao final |
 |------|------------------|----------------|
 | **0. Fundação** | `add-project-constitution`, `amend-constitution-docker`, `amend-constitution-ddd`, `update-specification-commits`, `amend-constitution-docs-folder`, `add-implementation-plan`, `update-specification-branches` | Regras do projeto e planejamento definidos |
-| **1. Base técnica** | `add-solution-skeleton` | A solução compila, testes e CI ficam verdes, API e Web sobem no Docker |
+| **1. Base técnica** | `add-solution-skeleton`, `add-ci-pipeline` | A solução compila, testes e CI ficam verdes, API e Web sobem no Docker |
 | **2. MVP** | `add-identity-access`, `add-patient-registry`, `add-dentist-profile`, `add-appointment-scheduling` | 🎯 **MVP**: a recepção agenda consultas, e o dentista vê e gerencia a própria agenda |
 | **3. Expansão** | `add-material-requests`, `add-exam-files` | Escopo completo do Artigo I da constituição |
 
@@ -45,6 +45,9 @@ A ordem das etapas segue o Artigo IX da constituição.
 
 ```
 add-solution-skeleton
+        │
+        ▼
+add-ci-pipeline
         │
         ▼
 add-identity-access
@@ -92,15 +95,26 @@ Tarefas: [Parte 0 do `tasks.md`](tasks.md#parte-0--fundação).
 - **Critérios de pronto:**
   - `dotnet build` sem warnings;
   - todos os testes passam, inclusive os de arquitetura;
-  - a CI roda em todo pull request e valida as mensagens de commit;
-  - `docker compose up` sobe PostgreSQL, API e Web;
   - `/health/ready` responde 200;
-  - a Web abre o layout base com o Radzen.
+  - a Web abre o layout base com o Radzen;
+  - API e Web rodam localmente com `dotnet run`.
 - **Riscos:**
-  - etapa grande demais: pode ser dividida (ex.: `add-ci-pipeline`);
   - a escolha de render mode Interactive Auto pode exigir ajustes (constituição III; design da `add-project-constitution`).
 - **Tamanho:** G.
+- **Divisão:** a etapa original tinha 12 tarefas macro, acima do limite de 10 grupos; Docker e CI foram para `add-ci-pipeline` (proposal de `add-solution-skeleton`).
 - **Tarefas:** [P1.E1](tasks.md#p1e1--add-solution-skeleton).
+
+#### `add-ci-pipeline`
+- **Objetivo:** containerizar a API e a Web e automatizar a verificação de todo pull request.
+- **Bounded context:** nenhum (transversal).
+- **Depende de:** `add-solution-skeleton`.
+- **Critérios de pronto:**
+  - `docker compose up` sobe PostgreSQL, API e Web;
+  - a CI roda em todo pull request: build, analisadores, todos os testes (inclusive os E2E, com instalação do navegador) e validação das mensagens de commit e do título do PR;
+  - a proteção da `main` exige os checks da CI (specification 14.5).
+- **Riscos:** tempo da CI com Testcontainers e Playwright; cache de pacotes NuGet e de navegadores.
+- **Tamanho:** M.
+- **Tarefas:** [P1.E2](tasks.md#p1e2--add-ci-pipeline).
 
 ### Fase 2 — MVP
 
@@ -195,8 +209,8 @@ Requisitos da constituição e do `specification.md` que não pertencem a um ún
 
 | Requisito | Origem | Etapa responsável |
 |-----------|--------|-------------------|
-| Pipeline de CI (build, analisadores, testes, validação de commits) | Constituição VII.6; specification 13 | `add-solution-skeleton` |
-| Dockerfiles e serviços `api`/`web` no compose | Constituição III.3; specification 7.5 | `add-solution-skeleton` |
+| Pipeline de CI (build, analisadores, testes, validação de commits) | Constituição VII.6; specification 13 | `add-ci-pipeline` |
+| Dockerfiles e serviços `api`/`web` no compose | Constituição III.3; specification 7.5 | `add-ci-pipeline` |
 | Building blocks (Shared Kernel, messaging, decorators, ProblemDetails) | specification 3.8, 4.1, 4.2, 5 | `add-solution-skeleton` |
 | Observabilidade, health checks e configuração validada | specification 8.2 a 8.4 | `add-solution-skeleton` |
 | Testes de arquitetura | specification 10.2 | `add-solution-skeleton` |
@@ -204,7 +218,7 @@ Requisitos da constituição e do `specification.md` que não pertencem a um ún
 | Convenções de código (`.editorconfig`, `Nullable`, warnings como erros, analisadores) | Constituição VII.1; specification 9 | `add-solution-skeleton` |
 | Segredos fora do repositório (User Secrets, variáveis de ambiente) | Constituição VI.4; specification 8.4 | `add-solution-skeleton` |
 | Logs sem dados pessoais | Constituição VI.7; specification 8.2 | `add-solution-skeleton` (decorator de logging) e cada módulo |
-| Commits semânticos | Constituição VII.4; specification 13 | `update-specification-commits` (hook) e `add-solution-skeleton` (CI) |
+| Commits semânticos | Constituição VII.4; specification 13 | `update-specification-commits` (hook) e `add-ci-pipeline` (CI) |
 | Autenticação, perfis, políticas, sessão e rate limiting | Constituição V, VI.5; specification 8.5 | `add-identity-access` |
 | HTTPS, HSTS e CORS | Constituição VI.3; specification 8.5 | `add-solution-skeleton` (base) e `add-identity-access` (ajuste com o frontend) |
 | Autorização por recurso | Constituição VI.1 | Cada módulo, a partir de `add-patient-registry` |

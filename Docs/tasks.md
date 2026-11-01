@@ -33,7 +33,7 @@ Todas as etapas desta parte estão concluídas.
 
 ### P1.E1 — `add-solution-skeleton`
 
-Ficha: [plano](plan.md#add-solution-skeleton). Detalhamento: a criar no `/opsx:propose`.
+Ficha: [plano](plan.md#add-solution-skeleton). Detalhamento: [tasks.md](../openspec/changes/add-solution-skeleton/tasks.md).
 
 | Tarefa | Entrega |
 |--------|---------|
@@ -44,11 +44,24 @@ Ficha: [plano](plan.md#add-solution-skeleton). Detalhamento: a criar no `/opsx:p
 | P1.E1.T5 | Persistência base: convenções de `DbContext` por módulo, snake_case, conversão de IDs, interceptor de eventos de domínio pós-commit e `IUnitOfWork` (specification 3.5, 7) |
 | P1.E1.T6 | Transversais: `TimeProvider`, Options validadas na inicialização, OpenTelemetry, health checks `/health/live` e `/health/ready`, User Secrets (specification 8) |
 | P1.E1.T7 | Web base: Blazor Web App com Interactive Auto, Radzen, layout, navegação por perfil (estrutura) e cliente HTTP tipado para a API (constituição III, IV.3) |
-| P1.E1.T8 | Docker: Dockerfiles de `api` e `web` e os serviços no `docker-compose.yaml`, com `depends_on` saudável do `postgres` (constituição III.3) |
+| ~~P1.E1.T8~~ | ~~Docker: Dockerfiles de `api` e `web` e os serviços no `docker-compose.yaml`~~ → movida para [P1.E2.T1](#p1e2--add-ci-pipeline) |
 | P1.E1.T9 | Infraestrutura de testes: `WebApplicationFactory` com Testcontainers e Respawn, projeto bUnit e projeto Playwright, cada um com um teste de fumaça (specification 10.1) |
 | P1.E1.T10 | Testes de arquitetura com todas as regras da specification 10.2 |
-| P1.E1.T11 | CI no GitHub Actions: build, analisadores, todos os testes e validação das mensagens de commit com `.githooks/commit-msg` (constituição VII.6; specification 13) |
+| ~~P1.E1.T11~~ | ~~CI no GitHub Actions~~ → movida para [P1.E2.T2 a T4](#p1e2--add-ci-pipeline) |
 | P1.E1.T12 | Documentação: README com como rodar a solução; atualização de `tasks.md` e `checklist.md` |
+
+### P1.E2 — `add-ci-pipeline`
+
+Ficha: [plano](plan.md#add-ci-pipeline). Detalhamento: a criar no `/opsx:propose`. Etapa criada pela divisão de P1.E1.
+
+| Tarefa | Entrega |
+|--------|---------|
+| P1.E2.T1 | Dockerfiles multi-stage de `api` e `web` e os serviços no `docker-compose.yaml`, com `depends_on` saudável do `postgres` e connection string por variável de ambiente (constituição III.3) |
+| P1.E2.T2 | CI no GitHub Actions: restore com cache, build sem warnings e testes de unidade, integração, componentes e arquitetura (constituição VII.6) |
+| P1.E2.T3 | Job de testes E2E na CI, com instalação do Chromium do Playwright e cache dos navegadores |
+| P1.E2.T4 | Validação das mensagens de commit do PR com `.githooks/commit-msg` e do título do PR no formato da specification 13 |
+| P1.E2.T5 | Proteção da `main` exigindo os checks da CI (specification 14.5) |
+| P1.E2.T6 | Documentação: README com o uso do compose completo e da CI; atualização de `tasks.md` e `checklist.md` |
 
 ## Parte 2 — MVP
 

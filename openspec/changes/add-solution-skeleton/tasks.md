@@ -51,9 +51,9 @@
 
 ## 9. Documentação e planejamento
 
-- [ ] 9.1 Atualizar o `README.md` com pré-requisitos (.NET SDK 10, Docker), configuração dos User Secrets, comandos para rodar API e Web, `dotnet test` e o filtro dos testes E2E; verificar executando os comandos como escritos
-- [ ] 9.2 Registrar a divisão da Fase 1 no `Docs/plan.md` (nova ficha `add-ci-pipeline` e critérios movidos), no `Docs/tasks.md` (P1.E1.T8 e P1.E1.T11 riscadas com remissão para a nova etapa P1.E2 e link para este `tasks.md`) e no `Docs/checklist.md` (itens de Docker e CI atribuídos a `add-ci-pipeline` e entregas desta change marcadas, com o resumo atualizado); verificar que âncoras e contagens batem
-- [ ] 9.3 Executar `dotnet build` (sem warnings), `dotnet test` (todos os testes) e `openspec validate add-solution-skeleton --strict`; verificar que tudo passa
+- [x] 9.1 Atualizar o `README.md` com pré-requisitos (.NET SDK 10, Docker), configuração dos User Secrets, comandos para rodar API e Web, `dotnet test` e o filtro dos testes E2E; verificar executando os comandos como escritos. *O comando `pwsh ... playwright.ps1 install chromium` não pôde ser executado nesta sessão (sem PowerShell e com o CDN do Playwright bloqueado pela rede): fica para a CI de `add-ci-pipeline`.*
+- [x] 9.2 Registrar a divisão da Fase 1 no `Docs/plan.md` (nova ficha `add-ci-pipeline` e critérios movidos), no `Docs/tasks.md` (P1.E1.T8 e P1.E1.T11 riscadas com remissão para a nova etapa P1.E2 e link para este `tasks.md`) e no `Docs/checklist.md` (itens de Docker e CI atribuídos a `add-ci-pipeline` e entregas desta change marcadas, com o resumo atualizado); verificar que âncoras e contagens batem
+- [x] 9.3 Executar `dotnet build` (sem warnings), `dotnet test` (todos os testes) e `openspec validate add-solution-skeleton --strict`; verificar que tudo passa
 
 ## Workflow follow-up
 

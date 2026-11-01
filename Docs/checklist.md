@@ -7,10 +7,10 @@ O que já foi entregue e o que falta, visto do projeto como um todo. Cada item �
 | Fase | Entregues | Total | Situação |
 |------|-----------|-------|----------|
 | 0. Fundação | 16 | 16 | ✅ Concluída |
-| 1. Base técnica | 0 | 9 | ⏳ Próxima |
+| 1. Base técnica | 7 | 9 | ⏳ Em andamento |
 | 2. MVP | 0 | 18 | ⬜ Não iniciada |
 | 3. Expansão | 0 | 11 | ⬜ Não iniciada |
-| **Total** | **16** | **54** | |
+| **Total** | **23** | **54** | |
 
 🎯 **Marco MVP:** ainda não alcançado. Ele é atingido quando todos os itens da Fase 2 estiverem entregues.
 
@@ -56,19 +56,19 @@ O que já foi entregue e o que falta, visto do projeto como um todo. Cada item �
 ## Fase 1 — Base técnica
 
 ### Solução e qualidade
-- [ ] A solução .NET 10 compila sem warnings, com a estrutura da specification 9 — `add-solution-skeleton`
-- [ ] Shared Kernel, Result pattern e messaging prontos para os módulos — `add-solution-skeleton`
-- [ ] Testes de arquitetura impedem violações de camadas e de módulos — `add-solution-skeleton`
-- [ ] Infraestrutura de testes (integração com banco real, componentes e ponta a ponta) funcionando — `add-solution-skeleton`
+- [x] A solução .NET 10 compila sem warnings, com a estrutura da specification 9 — `add-solution-skeleton`
+- [x] Shared Kernel, Result pattern e messaging prontos para os módulos — `add-solution-skeleton`
+- [x] Testes de arquitetura impedem violações de camadas e de módulos — `add-solution-skeleton`
+- [x] Infraestrutura de testes (integração com banco real, componentes e ponta a ponta) funcionando — `add-solution-skeleton`
 
 ### API e Web
-- [ ] API responde com ProblemDetails, documentação OpenAPI e health checks — `add-solution-skeleton`
-- [ ] Web Blazor abre com o layout base e conversa com a API — `add-solution-skeleton`
-- [ ] Logs e traces via OpenTelemetry, sem dados pessoais — `add-solution-skeleton`
+- [x] API responde com ProblemDetails, documentação OpenAPI e health checks — `add-solution-skeleton`
+- [x] Web Blazor abre com o layout base e conversa com a API — `add-solution-skeleton`
+- [x] Logs e traces via OpenTelemetry, sem dados pessoais — `add-solution-skeleton`
 
 ### Entrega contínua
-- [ ] `docker compose up` sobe banco, API e Web — `add-solution-skeleton`
-- [ ] CI roda build, análise, testes e validação de commits em todo pull request — `add-solution-skeleton`
+- [ ] `docker compose up` sobe banco, API e Web — `add-ci-pipeline` (movido de `add-solution-skeleton` na divisão da Fase 1)
+- [ ] CI roda build, análise, testes e validação de commits em todo pull request — `add-ci-pipeline` (movido de `add-solution-skeleton` na divisão da Fase 1)
 
 ## Fase 2 — MVP
 

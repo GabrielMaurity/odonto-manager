@@ -6,7 +6,9 @@ Sistema de gestão de clínicas odontológicas. Os princípios e decisões do pr
 
 ### Pré-requisitos
 
-- Docker Engine 24+ com o plugin Docker Compose v2 (`docker compose version`)
+- [.NET SDK 10](https://dotnet.microsoft.com/download/dotnet/10.0) (`dotnet --version`)
+- Docker Engine 24+ com o plugin Docker Compose v2 (`docker compose version`), usado pelo banco local e pelos testes de integração
+- PowerShell (`pwsh`), apenas para instalar o navegador dos testes ponta a ponta
 
 ### Subir o banco de dados
 
@@ -47,6 +49,67 @@ docker compose --profile tools down -v
 ```
 
 O arquivo `.env` contém credenciais e não é versionado; altere as senhas de exemplo se o ambiente não for apenas local.
+
+## Executar a solução
+
+A solução fica em `OdontoManager.slnx`: projetos de produção em `src/` e testes em `tests/` (detalhes na [seção 9 do `Docs/specification.md`](Docs/specification.md#9-estrutura-da-solução)).
+
+### Configurar a conexão com o banco
+
+A connection string fica nos User Secrets da API, nunca nos arquivos versionados. Com os valores do `.env.example`:
+
+```bash
+dotnet user-secrets set "ConnectionStrings:OdontoManager" "Host=localhost;Port=5432;Database=odonto_manager;Username=odonto;Password=odonto_dev_password" --project src/OdontoManager.Api
+```
+
+### Subir a API e a Web
+
+Com o banco no ar (`docker compose up -d`), em dois terminais:
+
+```bash
+dotnet run --project src/OdontoManager.Api
+```
+
+```bash
+dotnet run --project src/OdontoManager.Web
+```
+
+| Aplicação | Endereço |
+|-----------|----------|
+| Web | http://localhost:5090 |
+| API | http://localhost:5080 |
+| Documentação da API (só em desenvolvimento) | http://localhost:5080/scalar |
+| Saúde da API | http://localhost:5080/health/live e http://localhost:5080/health/ready |
+
+A página inicial da Web indica se o sistema está disponível, consultando a prontidão da API.
+
+## Testes
+
+Compilar sem warnings (eles são tratados como erros):
+
+```bash
+dotnet build
+```
+
+Rodar os testes de unidade, integração, componentes e arquitetura (os de integração sobem um PostgreSQL próprio via Docker):
+
+```bash
+dotnet test -- --filter-not-trait "Category=E2E"
+```
+
+### Testes ponta a ponta
+
+Os testes E2E usam o Playwright. Instale o Chromium uma vez, depois de compilar:
+
+```bash
+pwsh tests/OdontoManager.E2ETests/bin/Debug/net10.0/playwright.ps1 install chromium
+```
+
+```bash
+dotnet test --project tests/OdontoManager.E2ETests -- --filter-trait "Category=E2E"
+```
+
+Para usar um Chromium já instalado na máquina, defina `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` com o caminho do executável.
 
 ## Commits
 
