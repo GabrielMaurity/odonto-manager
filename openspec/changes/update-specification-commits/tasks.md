@@ -13,11 +13,11 @@
 
 ## 3. Documentação de uso
 
-- [ ] 3.1 Adicionar ao `README.md` uma seção "Commits" com o comando de ativação do hook, o formato resumido e o link para a seção 13 do `specification.md`; verificar executando o comando do README em um clone limpo do repositório
+- [x] 3.1 Adicionar ao `README.md` uma seção "Commits" com o comando de ativação do hook, o formato resumido e o link para a seção 13 do `specification.md`; verificar executando o comando do README em um clone limpo do repositório
 
 ## 4. Verificação final
 
-- [ ] 4.1 Executar `openspec validate update-specification-commits` e conferir que a seção 13 não contradiz o Artigo VII da constituição
+- [x] 4.1 Executar `openspec validate update-specification-commits` e conferir que a seção 13 não contradiz o Artigo VII da constituição
 
 ## Workflow follow-up
 
