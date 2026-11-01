@@ -14,14 +14,14 @@
 
 ## 3. Shared Kernel
 
-- [ ] 3.1 Implementar `Entity<TId>`, `AggregateRoot<TId>` e `IDomainEvent` (D2), com testes de unidade de registro e limpeza de eventos e as regras de arquitetura "entidades sem setter público" e "eventos `sealed`"; verificar com `dotnet test tests/OdontoManager.Domain.UnitTests`
-- [ ] 3.2 Implementar `Result`, `Result<T>`, `Error`, `ErrorType` e `ValidationError` com conversões implícitas (D2), com testes de sucesso, falha, conversões e `Value` em falha lançando exceção; verificar com `dotnet test`
-- [ ] 3.3 Implementar `UsuarioId`, `PacienteId` e `DentistaId` com `Novo()` via GUID v7, com testes de igualdade e de ordenação temporal; verificar com `dotnet test`
+- [x] 3.1 Implementar `Entity<TId>`, `AggregateRoot<TId>` e `IDomainEvent` (D2), com testes de unidade de registro e limpeza de eventos e as regras de arquitetura "entidades sem setter público" e "eventos `sealed`"; verificar com `dotnet test tests/OdontoManager.Domain.UnitTests`
+- [x] 3.2 Implementar `Result`, `Result<T>`, `Error`, `ErrorType` e `ValidationError` com conversões implícitas (D2), com testes de sucesso, falha, conversões e `Value` em falha lançando exceção; verificar com `dotnet test`
+- [x] 3.3 Implementar `UsuarioId`, `PacienteId` e `DentistaId` com `Novo()` via GUID v7, com testes de igualdade e de ordenação temporal; verificar com `dotnet test`
 
 ## 4. Messaging da aplicação
 
-- [ ] 4.1 Implementar `ICommand`, `IQuery`, `ICommandHandler`, `IQueryHandler`, `Unit`, `IUnitOfWork` e `IDomainEventHandler` em `Application/Abstractions` e `AddApplication()` com varredura via Scrutor (D3), com a regra de arquitetura "handlers `sealed` e não públicos"; verificar com teste que resolve um handler de teste pela interface
-- [ ] 4.2 Implementar os decorators de validação e de logging (D3), com testes de que a validação devolve `ValidationError` agrupado por campo sem chamar o handler e de que o log não contém o conteúdo do comando; verificar com `dotnet test tests/OdontoManager.Application.UnitTests`
+- [x] 4.1 Implementar `ICommand`, `IQuery`, `ICommandHandler`, `IQueryHandler`, `Unit`, `IUnitOfWork` e `IDomainEventHandler` em `Application/Abstractions` e `AddApplication()` com varredura via Scrutor (D3), com a regra de arquitetura "handlers `sealed` e não públicos"; verificar com teste que resolve um handler de teste pela interface
+- [x] 4.2 Implementar os decorators de validação e de logging (D3), com testes de que a validação devolve `ValidationError` agrupado por campo sem chamar o handler e de que o log não contém o conteúdo do comando; verificar com `dotnet test tests/OdontoManager.Application.UnitTests`
 
 ## 5. API base
 
