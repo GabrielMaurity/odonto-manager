@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/OdontoManager.Api/OdontoManager.Api.csproj" />
+    <Project Path="src/OdontoManager.Application/OdontoManager.Application.csproj" />
+    <Project Path="src/OdontoManager.Contracts/OdontoManager.Contracts.csproj" />
+    <Project Path="src/OdontoManager.Domain/OdontoManager.Domain.csproj" />
+    <Project Path="src/OdontoManager.Infrastructure/OdontoManager.Infrastructure.csproj" />
+    <Project Path="src/OdontoManager.Web.Client/OdontoManager.Web.Client.csproj" />
+    <Project Path="src/OdontoManager.Web/OdontoManager.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/OdontoManager.Api.IntegrationTests/OdontoManager.Api.IntegrationTests.csproj" />
+    <Project Path="tests/OdontoManager.Application.UnitTests/OdontoManager.Application.UnitTests.csproj" />
+    <Project Path="tests/OdontoManager.ArchitectureTests/OdontoManager.ArchitectureTests.csproj" />
+    <Project Path="tests/OdontoManager.Domain.UnitTests/OdontoManager.Domain.UnitTests.csproj" />
+    <Project Path="tests/OdontoManager.E2ETests/OdontoManager.E2ETests.csproj" />
+    <Project Path="tests/OdontoManager.Web.ComponentTests/OdontoManager.Web.ComponentTests.csproj" />
+  </Folder>
+</Solution>

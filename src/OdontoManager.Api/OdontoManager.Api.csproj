@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <UserSecretsId>odonto-manager-api</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../OdontoManager.Application/OdontoManager.Application.csproj" />
+    <ProjectReference Include="../OdontoManager.Infrastructure/OdontoManager.Infrastructure.csproj" />
+    <ProjectReference Include="../OdontoManager.Contracts/OdontoManager.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
+  </ItemGroup>
+
+</Project>

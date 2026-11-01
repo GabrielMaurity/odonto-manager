@@ -2,25 +2,25 @@
 
 ## 1. Estrutura da solução
 
-- [ ] 1.1 Criar `global.json`, `Directory.Build.props`, `Directory.Packages.props` e `.editorconfig` (design.md D1) e acrescentar ao `.gitignore` os artefatos de build (`bin/`, `obj/`, `TestResults/`, `*.user`); verificar que `git check-ignore bin/x` ignora o caminho
-- [ ] 1.2 Criar os 7 projetos de `src/` e os 6 de `tests/` com as referências da tabela de D1 e montar o `OdontoManager.slnx`; verificar com `dotnet build` sem warnings
-- [ ] 1.3 Verificar que uma violação proposital de estilo (variável não usada) quebra o build e depois remover a violação; verificar com `dotnet build` falhando e depois passando
+- [x] 1.1 Criar `global.json`, `Directory.Build.props`, `Directory.Packages.props` e `.editorconfig` (design.md D1) e acrescentar ao `.gitignore` os artefatos de build (`bin/`, `obj/`, `TestResults/`, `*.user`); verificar que `git check-ignore bin/x` ignora o caminho
+- [x] 1.2 Criar os 7 projetos de `src/` e os 6 de `tests/` com as referências da tabela de D1 e montar o `OdontoManager.slnx`; verificar com `dotnet build` sem warnings
+- [x] 1.3 Verificar que uma violação proposital de estilo (variável não usada) quebra o build e depois remover a violação; verificar com `dotnet build` falhando e depois passando
 
 ## 2. Infraestrutura de testes e testes de arquitetura
 
-- [ ] 2.1 Adicionar os pacotes de teste do catálogo (specification 11) e um teste de fumaça em cada projeto de teste de unidade; verificar com `dotnet test`
-- [ ] 2.2 Criar a `ApiFactory` com Testcontainers (`postgres:18.6-alpine` em constante única), Respawn e assembly fixture (D8), com um teste de fumaça que sobe a API e recebe 404 em rota inexistente; verificar com `dotnet test tests/OdontoManager.Api.IntegrationTests`
-- [ ] 2.3 Escrever em `ArchitectureTests` todas as regras da specification 10.2, de forma genérica por convenção de namespace (D9); verificar que passam e que uma referência proibida temporária (`Domain` → EF Core) faz o teste falhar, removendo-a em seguida
+- [x] 2.1 Adicionar os pacotes de teste do catálogo (specification 11) e um teste de fumaça em cada projeto de teste de unidade; verificar com `dotnet test`
+- [x] 2.2 Criar a `ApiFactory` com Testcontainers (`postgres:18.6-alpine` em constante única), Respawn e assembly fixture (D8), com um teste de fumaça que sobe a API e recebe 404 em rota inexistente; verificar com `dotnet test tests/OdontoManager.Api.IntegrationTests`
+- [x] 2.3 Escrever em `ArchitectureTests` as regras de camadas, de módulos e de endpoints da specification 10.2, de forma genérica por convenção de namespace (D9). As regras de entidades, eventos e handlers entram nas tarefas 3.1 e 4.1, junto com os tipos que verificam. Verificar que passam e que uma referência proibida temporária (`Domain` → EF Core) faz o teste falhar, removendo-a em seguida
 
 ## 3. Shared Kernel
 
-- [ ] 3.1 Implementar `Entity<TId>`, `AggregateRoot<TId>` e `IDomainEvent` (D2), com testes de unidade de registro e limpeza de eventos; verificar com `dotnet test tests/OdontoManager.Domain.UnitTests`
+- [ ] 3.1 Implementar `Entity<TId>`, `AggregateRoot<TId>` e `IDomainEvent` (D2), com testes de unidade de registro e limpeza de eventos e as regras de arquitetura "entidades sem setter público" e "eventos `sealed`"; verificar com `dotnet test tests/OdontoManager.Domain.UnitTests`
 - [ ] 3.2 Implementar `Result`, `Result<T>`, `Error`, `ErrorType` e `ValidationError` com conversões implícitas (D2), com testes de sucesso, falha, conversões e `Value` em falha lançando exceção; verificar com `dotnet test`
 - [ ] 3.3 Implementar `UsuarioId`, `PacienteId` e `DentistaId` com `Novo()` via GUID v7, com testes de igualdade e de ordenação temporal; verificar com `dotnet test`
 
 ## 4. Messaging da aplicação
 
-- [ ] 4.1 Implementar `ICommand`, `IQuery`, `ICommandHandler`, `IQueryHandler`, `Unit`, `IUnitOfWork` e `IDomainEventHandler` em `Application/Abstractions` e `AddApplication()` com varredura via Scrutor (D3); verificar com teste que resolve um handler de teste pela interface
+- [ ] 4.1 Implementar `ICommand`, `IQuery`, `ICommandHandler`, `IQueryHandler`, `Unit`, `IUnitOfWork` e `IDomainEventHandler` em `Application/Abstractions` e `AddApplication()` com varredura via Scrutor (D3), com a regra de arquitetura "handlers `sealed` e não públicos"; verificar com teste que resolve um handler de teste pela interface
 - [ ] 4.2 Implementar os decorators de validação e de logging (D3), com testes de que a validação devolve `ValidationError` agrupado por campo sem chamar o handler e de que o log não contém o conteúdo do comando; verificar com `dotnet test tests/OdontoManager.Application.UnitTests`
 
 ## 5. API base

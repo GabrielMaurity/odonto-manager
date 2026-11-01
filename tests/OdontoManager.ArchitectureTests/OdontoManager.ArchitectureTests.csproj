@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OdontoManager.Domain/OdontoManager.Domain.csproj" />
+    <ProjectReference Include="../../src/OdontoManager.Application/OdontoManager.Application.csproj" />
+    <ProjectReference Include="../../src/OdontoManager.Infrastructure/OdontoManager.Infrastructure.csproj" />
+    <ProjectReference Include="../../src/OdontoManager.Contracts/OdontoManager.Contracts.csproj" />
+    <ProjectReference Include="../../src/OdontoManager.Api/OdontoManager.Api.csproj" />
+    <ProjectReference Include="../../src/OdontoManager.Web/OdontoManager.Web.csproj" />
+    <ProjectReference Include="../../src/OdontoManager.Web.Client/OdontoManager.Web.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="NetArchTest.Rules" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="FluentAssertions" />
+  </ItemGroup>
+
+</Project>
