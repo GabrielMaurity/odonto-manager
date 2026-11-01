@@ -35,7 +35,7 @@ Os três documentos ficam em `Docs/`, junto com a constituição e o `specificat
 ### D3. Fases e MVP (`Docs/plan.md`)
 | Fase | Changes | Marco ao final |
 |------|---------|----------------|
-| 0. Fundação | `add-project-constitution`, `amend-constitution-docker`, `amend-constitution-ddd`, `update-specification-commits`, `add-implementation-plan` | Regras e planejamento definidos |
+| 0. Fundação | `add-project-constitution`, `amend-constitution-docker`, `amend-constitution-ddd`, `update-specification-commits`, `amend-constitution-docs-folder`, `add-implementation-plan` | Regras e planejamento definidos |
 | 1. Base técnica | `add-solution-skeleton` | Solução compila, testes e CI verdes, API e Web sobem no Docker |
 | 2. MVP | `add-identity-access`, `add-patient-registry`, `add-dentist-profile`, `add-appointment-scheduling` | **MVP**: a recepção agenda, e o dentista vê e gerencia sua agenda |
 | 3. Expansão | `add-material-requests`, `add-exam-files` | Escopo completo do Artigo I |

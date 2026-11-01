@@ -1,6 +1,6 @@
 # Odonto Manager
 
-Sistema de gestão de clínicas odontológicas. Os princípios e decisões do projeto estão em [`Docs/constitution.md`](Docs/constitution.md); o desenvolvimento segue SDD com [OpenSpec](https://github.com/Fission-AI/OpenSpec) (changes em `openspec/changes/`).
+Sistema de gestão de clínicas odontológicas. Os princípios e decisões do projeto estão em [`Docs/constitution.md`](Docs/constitution.md) e a especificação técnica em [`Docs/specification.md`](Docs/specification.md). O planejamento da implementação está em [`Docs/plan.md`](Docs/plan.md), as tarefas em [`Docs/tasks.md`](Docs/tasks.md) e o andamento em [`Docs/checklist.md`](Docs/checklist.md); o desenvolvimento segue SDD com [OpenSpec](https://github.com/Fission-AI/OpenSpec) (changes em `openspec/changes/`).
 
 ## Ambiente de desenvolvimento
 

@@ -22,9 +22,11 @@ context: |
 rules:
   proposal:
     - Indicar o módulo (Artigo IV da constituição) a que a change pertence.
+    - "Citar a ficha da etapa em Docs/plan.md e a etapa em Docs/tasks.md (ex.: P2.E4), e justificar qualquer desvio de escopo em relação a elas."
   design:
     - Citar os artigos da constituição e as seções do specification.md afetados ou nos quais cada decisão se apoia.
     - Justificar toda nova dependência externa (licença, manutenção, motivo).
   tasks:
     - Cada grupo de tarefas DEVE incluir as tarefas de teste da própria funcionalidade; não criar grupo final só de testes.
     - Tarefas que tocam dados clínicos ou exames DEVEM incluir verificação de autorização e auditoria.
+    - O último grupo DEVE incluir a tarefa de atualizar Docs/tasks.md (link da etapa) e Docs/checklist.md (itens entregues, resumo e novas necessidades).
