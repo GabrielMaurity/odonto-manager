@@ -2,7 +2,7 @@
 
 | Versão | Ratificada em | Última emenda |
 |--------|---------------|---------------|
-| 1.0.0  | 2026-11-01    | —             |
+| 1.1.0  | 2026-11-01    | 2026-11-01 (Docker no ambiente local) |
 
 Este documento define os princípios, decisões estruturais e convenções que regem o desenvolvimento do Odonto Manager. Toda change, spec, design, tarefa e linha de código DEVE estar em conformidade com ele. Em caso de conflito entre esta constituição e qualquer outro artefato, prevalece a constituição até que seja emendada (Artigo X).
 
@@ -49,9 +49,11 @@ As palavras **DEVE**, **NÃO DEVE** e **PODE** têm sentido normativo: obrigaç�
 | Testes de unidade/integração | xUnit, FluentAssertions, Testcontainers (PostgreSQL real) |
 | Testes de componentes | bUnit |
 | Testes ponta a ponta | Playwright |
+| Ambiente local | Docker + Docker Compose v2 |
 
 1. Novas dependências DEVEM ter licença compatível com uso comercial e manutenção ativa, e DEVEM ser justificadas no `design.md` da change que as introduz.
 2. A troca de qualquer item desta tabela exige emenda (Artigo X).
+3. As dependências de infraestrutura do ambiente local (banco de dados e ferramentas de apoio) DEVEM ser executadas via Docker Compose, a partir do `docker-compose.yaml` versionado na raiz. Imagens DEVEM usar tag de versão fixa; a tag `latest` NÃO DEVE ser usada.
 
 ## Artigo IV — Arquitetura
 

@@ -25,7 +25,7 @@ Adicionar um item de stack é MINOR pela regra de versionamento: 1.0.0 → 1.1.0
 `docker-compose.yaml` na raiz, como pedido. O Compose v2 também aceita `compose.yaml`, mas o nome pedido é igualmente suportado e mais reconhecível. O arquivo NÃO usa a chave `version:`, que está obsoleta no Compose v2, e define `name: odonto-manager` para o nome do projeto não depender do diretório.
 
 ### D3. PostgreSQL 18 em imagem Alpine, com tag fixa
-Imagem `postgres:18-alpine` (Artigo III: PostgreSQL; nova cláusula de tag fixa). A versão 18 é a estável atual e tem suporte do Npgsql/EF Core 10. A variante Alpine reduz o tamanho da imagem.
+Imagem `postgres:18.6-alpine` (Artigo III: PostgreSQL; nova cláusula de tag fixa). A versão 18 é a estável atual e tem suporte do Npgsql/EF Core 10. A variante Alpine reduz o tamanho da imagem.
 - A partir da imagem 18, os dados ficam em `/var/lib/postgresql/18/docker`. Por isso o volume nomeado é montado em `/var/lib/postgresql`, e não no caminho antigo `/var/lib/postgresql/data`; isso também facilita upgrades de versão maior.
 - *Alternativa*: PostgreSQL 17. Rejeitada: não há motivo para começar um projeto novo em versão anterior.
 
@@ -33,7 +33,7 @@ Imagem `postgres:18-alpine` (Artigo III: PostgreSQL; nova cláusula de tag fixa)
 O serviço `postgres` tem healthcheck com `pg_isready`. Assim, quando `api` entrar no compose, ela poderá usar `depends_on: condition: service_healthy` e só subir com o banco pronto.
 
 ### D5. pgAdmin opcional, via profile `tools`
-`dpage/pgadmin4` com tag fixa, ativado só com `docker compose --profile tools up -d`. Quem usa outro cliente (DBeaver, Rider) não paga o custo de memória.
+`dpage/pgadmin4:9.19`, com `PGADMIN_LISTEN_ADDRESS=0.0.0.0` (o padrão `::` falha sem IPv6), ativado só com `docker compose --profile tools up -d`. Quem usa outro cliente (DBeaver, Rider) não paga o custo de memória.
 - *Alternativa*: não incluir ferramenta visual. Rejeitada: facilita a inspeção do banco no início do projeto, com custo zero quando desligada.
 
 ### D6. Variáveis em `.env`, com `.env.example` versionado (Artigo VI.4)
