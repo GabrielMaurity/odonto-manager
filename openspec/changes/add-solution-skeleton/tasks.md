@@ -46,8 +46,8 @@
 
 - [x] 8.1 Criar a Web (template Blazor com Interactive Auto) com Radzen, `MainLayout`, `NavMenu` e página `NotFound`, e a cultura pt-BR no servidor e no cliente (D7); verificar com testes bUnit do layout, da página não encontrada e da formatação pt-BR
 - [x] 8.2 Implementar `ISystemStatusClient` e a indicação de disponibilidade na página inicial (D7); verificar com testes bUnit dos cenários "API disponível" e "API indisponível" de `platform/web-shell`, sem detalhes técnicos na mensagem
-- [ ] 8.3 Criar o teste E2E com Playwright, sobre a Web em Kestrel real (D8), que abre a página inicial e verifica layout, nome do sistema e "sistema indisponível"; verificar com `dotnet test --filter Category=E2E`. Se os navegadores não estiverem disponíveis no ambiente, reportar e manter a tarefa pendente
-- [ ] 8.4 Executar API e Web com `dotnet run` e verificar no navegador que a página inicial mostra "sistema disponível" com o PostgreSQL ativo
+- [x] 8.3 Criar o teste E2E com Playwright, sobre a Web em Kestrel real (D8), que abre a página inicial e verifica layout, nome do sistema e "sistema indisponível"; verificar com `dotnet test --project tests/OdontoManager.E2ETests -- --filter-trait "Category=E2E"`. Se os navegadores não estiverem disponíveis no ambiente, reportar e manter a tarefa pendente
+- [x] 8.4 Executar API e Web com `dotnet run` e verificar no navegador que a página inicial mostra "sistema disponível" com o PostgreSQL ativo
 
 ## 9. Documentação e planejamento
 
